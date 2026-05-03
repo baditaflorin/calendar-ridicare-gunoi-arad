@@ -132,12 +132,15 @@ function loadEventsForCurrentWindow() {
 
 function renderAll() {
   const place = state.place;
-  // Reveal the program section
+  // Reveal the program section (handles both old and new template)
   const programSection = document.querySelector("#program");
-  programSection.hidden = false;
-  programSection.style.animation = "fadeSlideIn 0.5s ease-out";
+  if (programSection) {
+    programSection.hidden = false;
+    programSection.style.animation = "fadeSlideIn 0.5s ease-out";
+  }
   // Shrink the hero
-  document.querySelector("#hero").classList.add("hero-compact");
+  const hero = document.querySelector("#hero") || document.querySelector(".hero-band");
+  if (hero) hero.classList.add("hero-compact");
 
   document.querySelector("#place-title").textContent = `Programul pentru Strada ${place.street_raw}, Arad`;
   document.querySelector("#place-subtitle").textContent = place.cartier ? `Cartier ${place.cartier}` : "Municipiul Arad";
@@ -162,8 +165,11 @@ function renderAll() {
   renderLegend();
   renderCalendar();
   renderSources();
+  // Also render week/upcoming if those elements exist (old template compatibility)
+  if (document.querySelector("#week-strip")) renderWeek();
+  if (document.querySelector("#upcoming-list")) renderUpcoming();
   // Scroll to the program section smoothly
-  programSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (programSection) programSection.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function renderNext() {

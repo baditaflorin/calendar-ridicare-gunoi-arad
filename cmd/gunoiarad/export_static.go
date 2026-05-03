@@ -135,6 +135,7 @@ func writeStaticPages(outDir string) error {
 }
 
 func staticHTML(html string, prefix string) string {
+	cacheBust := fmt.Sprintf("?v=%d", time.Now().Unix())
 	replacements := map[string]string{
 		`href="/static/`:    `href="` + prefix + `static/`,
 		`src="/static/`:     `src="` + prefix + `static/`,
@@ -149,6 +150,9 @@ func staticHTML(html string, prefix string) string {
 	for old, newValue := range replacements {
 		html = strings.ReplaceAll(html, old, newValue)
 	}
+	// Cache-bust CSS and JS
+	html = strings.ReplaceAll(html, `.css"`, `.css`+cacheBust+`"`)
+	html = strings.ReplaceAll(html, `.js"`, `.js`+cacheBust+`"`)
 	html = strings.Replace(html, "</head>", "  <script>window.GUNOI_STATIC = true;</script>\n</head>", 1)
 	return html
 }
