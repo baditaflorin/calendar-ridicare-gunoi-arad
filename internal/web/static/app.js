@@ -165,15 +165,19 @@ function renderNext() {
     return;
   }
   const date = parseDate(next.date);
-  card.style.setProperty("--bin-color", next.color);
+  card.className = "next-card"; // Reset just in case
+  const imgURL = staticMode ? new URL(`images/${wasteImage(next.waste_type)}`, siteRoot) : `/static/images/${wasteImage(next.waste_type)}`;
+  
   card.innerHTML = `
-    <div>
-      <p class="eyebrow">Urmatoarea colectare</p>
+    <div class="next-content">
+      <p class="eyebrow">URMATOAREA COLECTARE</p>
       <h3>${relativeDate(date)}</h3>
-      <p><strong>${escapeHTML(next.label)}</strong></p>
-      <p>Incepand cu ${next.start_time || "07:00"}</p>
+      <p class="next-type" style="color: ${next.color};"><strong>${escapeHTML(next.label)}</strong></p>
+      <p class="next-time">Incepand cu ${next.start_time || "07:00"}</p>
     </div>
-    <div class="bin-visual" aria-hidden="true"></div>
+    <div class="bin-visual" aria-hidden="true">
+      <img src="${imgURL}" alt="Pubela ${escapeHTML(next.label)}" loading="lazy" />
+    </div>
   `;
 }
 
@@ -375,6 +379,19 @@ function wasteColor(type) {
     textile: "#db2777",
     hazardous: "#dc2626",
   }[type] || "#64748b";
+}
+
+function wasteImage(type) {
+  return {
+    residual: "bin_gray.png",
+    bio: "bin_green.png",
+    paper: "bin_blue.png",
+    plastic_metal: "bin_yellow.png",
+    glass: "bin_green.png",
+    bulky: "bin_purple.png",
+    textile: "bin_pink.png",
+    hazardous: "bin_red.png",
+  }[type] || "bin_gray.png";
 }
 
 async function loadCatalog() {

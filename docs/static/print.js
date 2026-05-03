@@ -164,3 +164,39 @@ function escapeHTML(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 }
+
+window.downloadImage = async function() {
+  const paper = document.querySelector("#print-paper");
+  const btn = document.querySelector(".print-toolbar button");
+  const originalText = btn.textContent;
+  
+  try {
+    btn.textContent = "Se genereaza imaginea...";
+    btn.disabled = true;
+    
+    const canvas = await html2canvas(paper, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+      windowWidth: 1200,
+    });
+    
+    const image = canvas.toDataURL("image/png", 1.0);
+    const link = document.createElement("a");
+    
+    // try to get street name for filename
+    const heading = paper.querySelector("h1")?.textContent || "";
+    const streetMatch = heading.match(/Strada (.*)/);
+    const filename = streetMatch ? `calendar-${streetMatch[1].replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png` : `calendar-gunoi-arad.png`;
+    
+    link.download = filename;
+    link.href = image;
+    link.click();
+  } catch(err) {
+    console.error("Failed to generate image", err);
+    alert("Eroare la generarea imaginii.");
+  } finally {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+};
