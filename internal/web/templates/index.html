@@ -24,17 +24,19 @@
   <main class="shell">
     <section class="hero-band">
       <div class="hero-copy">
-        <h1>Spune-ne strada. Iti spunem cand scoti gunoiul.</h1>
-        <p>Programul de colectare pentru Arad, cautabil si gata de print.</p>
+        <h1>Știi când se ridică gunoiul pe strada ta?</h1>
+        <p>Găsește adresa și descarcă propriul calendar de colectare pentru Arad.</p>
         <form class="searchbar" id="search-form" role="search">
-          <span class="pin" aria-hidden="true">⌖</span>
-          <input id="street-search" name="q" autocomplete="off" placeholder="Strada Nicolae Densuseanu, Arad">
+          <div class="search-input-group">
+            <span class="pin" aria-hidden="true">⌖</span>
+            <select id="neighborhood-select" class="inline-filter">
+              <option value="">Toate cartierele</option>
+            </select>
+            <input id="street-search" name="q" autocomplete="off" placeholder="Strada Nicolae Densuseanu, Arad">
+          </div>
           <button type="submit">Vezi programul</button>
         </form>
-        <div class="filter-row">
-          <select id="neighborhood-select" aria-label="Cartier">
-            <option value="">Toate cartierele</option>
-          </select>
+        <div id="catalog-count-row" style="margin-top: 12px; font-size: 14px; color: var(--muted);">
           <span id="catalog-count">Se incarca strazile oficiale...</span>
         </div>
         <div id="search-results" class="search-results" hidden></div>
@@ -61,7 +63,6 @@
         </div>
 
         <div class="actions">
-          <a id="print-link" class="button primary" href="#">Calendar A4 / PDF</a>
           <a id="ics-link" class="button" href="#">Adauga in calendar</a>
           <a id="official-link" class="button" href="https://retim.ro/utile-arad/zona-1/" target="_blank" rel="noreferrer">Verifica la sursa</a>
           <button id="share-button" class="button" type="button">Partajeaza</button>
@@ -71,9 +72,12 @@
 
         <div id="calendar" class="calendar-panel">
           <div class="calendar-head">
-            <button id="prev-month" type="button" aria-label="Luna precedenta">‹</button>
-            <h3 id="month-title">Calendar</h3>
-            <button id="next-month" type="button" aria-label="Luna urmatoare">›</button>
+            <div class="cal-nav">
+              <button id="prev-month" type="button" aria-label="Luna precedenta">‹</button>
+              <h3 id="month-title">Calendar</h3>
+              <button id="next-month" type="button" aria-label="Luna urmatoare">›</button>
+            </div>
+            <a id="print-link" class="button primary sm" href="#">Calendar A4 / PDF</a>
           </div>
           <div class="legend-row" id="legend-row"></div>
           <div class="calendar-grid" id="calendar-grid" aria-label="Calendar lunar"></div>

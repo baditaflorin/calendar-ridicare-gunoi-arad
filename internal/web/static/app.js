@@ -25,6 +25,13 @@ const fullWeekdays = ["Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata", "
 const monthNames = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
 
 document.addEventListener("DOMContentLoaded", () => {
+  const shell = document.querySelector(".shell");
+  window.addEventListener("scroll", () => {
+    const scrolled = window.pageYOffset;
+    if (shell) {
+      shell.style.setProperty("--parallax-offset", `${scrolled * 0.4}px`);
+    }
+  });
   const params = new URLSearchParams(window.location.search);
   const placeId = params.get("place_id");
   bindSearch();
