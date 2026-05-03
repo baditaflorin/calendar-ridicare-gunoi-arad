@@ -64,11 +64,11 @@ input {
   display: inline-block;
   border-radius: 8px;
   background:
-    radial-gradient(circle at 50% 20%, #2b77ff 0 25%, transparent 26%),
-    radial-gradient(ellipse at 30% 68%, #26b56b 0 26%, transparent 27%),
-    radial-gradient(ellipse at 70% 68%, #26b56b 0 26%, transparent 27%),
-    linear-gradient(160deg, #e8f3ff, #ffffff);
-  box-shadow: inset 0 0 0 1px #cfe0ff;
+    radial-gradient(circle at 50% 20%, #3b82f6 0 25%, transparent 26%),
+    radial-gradient(ellipse at 30% 68%, #22c55e 0 26%, transparent 27%),
+    radial-gradient(ellipse at 70% 68%, #22c55e 0 26%, transparent 27%),
+    linear-gradient(160deg, #ecfdf5, #ffffff);
+  box-shadow: inset 0 0 0 1px #d1fae5;
 }
 
 .topnav {

@@ -26,7 +26,7 @@ function renderPrint(place, events, month) {
     <header class="paper-head">
       <div class="brand print-brand">
         <span class="brand-mark" aria-hidden="true"></span>
-        <span>Gunoi <strong>Arad</strong></span>
+        <span>Reciclare <strong>Arad</strong></span>
       </div>
       <span>Programul tau. Orasul nostru.</span>
     </header>

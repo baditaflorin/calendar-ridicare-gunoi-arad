@@ -72,7 +72,7 @@ function bindButtons() {
     if (!state.place) return;
     const url = programURL(state.place.id);
     if (navigator.share) {
-      await navigator.share({ title: "Gunoi Arad", url });
+      await navigator.share({ title: "Reciclare Arad", url });
     } else if (navigator.clipboard) {
       await navigator.clipboard.writeText(url);
     }
