@@ -12,8 +12,8 @@ The product needs a small self-hosted backend that can serve a searchable calend
 
 ## Decision
 
-Use Go for a single deployable binary, `chi` for routing, and SQLite for the MVP database. The SQLite driver is the pure-Go `modernc.org/sqlite` package so local development and amd64 Docker builds do not depend on CGO.
+Use Go for a single deployable binary, `chi` for routing, and SQLite for the MVP database. The SQLite driver is `github.com/mattn/go-sqlite3`, the most battle-tested Go SQLite driver. Docker builds install a compiler toolchain inside the builder stage so CGO stays contained in the image build.
 
 ## Consequences
 
-The service stays simple to run and backup. SQLite is enough for Arad-scale lookup data and generated events. If the project expands to multiple counties or write-heavy workflows, the store boundary can grow a Postgres implementation without changing HTTP contracts.
+The service stays simple to run and backup. SQLite is enough for Arad-scale lookup data and generated events. Local and Docker builds need CGO support. If the project expands to multiple counties or write-heavy workflows, the store boundary can grow a Postgres implementation without changing HTTP contracts.
