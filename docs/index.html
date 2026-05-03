@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gunoi Arad</title>
-  <link rel="stylesheet" href="./static/styles.css?v=1777850595">
-  <script defer src="./static/app.js?v=1777850595"></script>
+  <link rel="stylesheet" href="./static/styles.css?v=1777851655">
+  <script defer src="./static/app.js?v=1777851655"></script>
   <script>window.GUNOI_STATIC = true;</script>
 </head>
 <body>
@@ -44,45 +44,41 @@
       </div>
     </section>
 
-    <section id="program" class="program-layout" hidden>
-      <div class="main-column">
-        <div class="result-head">
-          <div>
-            <p class="eyebrow">Pentru strada ta</p>
-            <h2 id="place-title">Alege o strada</h2>
-            <p id="place-subtitle">Datele sunt importate din sursele publice RETIM.</p>
-          </div>
-          <span id="freshness" class="freshness">astept date</span>
+    <section id="program" class="program-flow" hidden>
+      <div class="result-head">
+        <div>
+          <p class="eyebrow">Pentru strada ta</p>
+          <h2 id="place-title">Alege o strada</h2>
+          <p id="place-subtitle">Datele sunt importate din sursele publice RETIM.</p>
         </div>
-
-        <div class="actions">
-          <a id="ics-link" class="button" href="#">Adauga in calendar</a>
-          <a id="official-link" class="button" href="https://retim.ro/utile-arad/zona-1/" target="_blank" rel="noreferrer">Verifica la sursa</a>
-          <button id="share-button" class="button" type="button">Partajeaza</button>
-        </div>
-
-        <div id="next-card" class="next-card"></div>
-
-        <div id="calendar" class="calendar-panel">
-          <div class="calendar-head">
-            <div class="cal-nav">
-              <button id="prev-month" type="button" aria-label="Luna precedenta">‹</button>
-              <h3 id="month-title">Calendar</h3>
-              <button id="next-month" type="button" aria-label="Luna urmatoare">›</button>
-            </div>
-            <a id="print-link" class="button primary sm" href="#">Calendar A4 / PDF</a>
-          </div>
-          <div class="legend-row" id="legend-row"></div>
-          <div class="calendar-grid" id="calendar-grid" aria-label="Calendar lunar"></div>
-        </div>
+        <span id="freshness" class="freshness">astept date</span>
       </div>
 
-      <aside class="side-column">
-        <section id="surse" class="source-panel">
-          <h3>Surse</h3>
-          <p id="source-copy">Calendar generat automat din snapshot-uri RETIM.</p>
-        </section>
-      </aside>
+      <div id="next-card" class="next-card"></div>
+
+      <div id="calendar" class="calendar-panel">
+        <div class="calendar-head">
+          <div class="cal-nav">
+            <button id="prev-month" type="button" aria-label="Luna precedenta">‹</button>
+            <h3 id="month-title">Calendar</h3>
+            <button id="next-month" type="button" aria-label="Luna urmatoare">›</button>
+          </div>
+          <div class="cal-actions">
+            <a id="ics-link" class="button sm" href="#">📅 Adaugă în calendarul tău</a>
+            <a id="print-link" class="button primary sm" href="#">🖨️ Descarcă PDF</a>
+          </div>
+        </div>
+        <div class="legend-row" id="legend-row"></div>
+        <div class="calendar-grid" id="calendar-grid" aria-label="Calendar lunar"></div>
+      </div>
+
+      <div class="source-strip">
+        <p id="source-copy">Calendar generat automat din snapshot-uri RETIM.</p>
+        <div class="source-actions">
+          <a id="official-link" class="button sm" href="https://retim.ro/utile-arad/zona-1/" target="_blank" rel="noreferrer">Verifică sursa oficială</a>
+          <button id="share-button" class="button sm" type="button">Partajează</button>
+        </div>
+      </div>
     </section>
 
     <footer class="site-footer">

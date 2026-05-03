@@ -39,6 +39,14 @@ type staticEvent struct {
 	Generated  bool             `json:"generated,omitempty"`
 }
 
+type staticStats struct {
+	GeneratedAt     string                    `json:"generated_at"`
+	TotalPlaces     int                       `json:"total_places"`
+	TotalEvents     int                       `json:"total_events"`
+	WasteTypeCounts map[string]int            `json:"waste_type_counts"`
+	DailyBreakdown  map[string]map[string]int `json:"daily_breakdown"`
+}
+
 func exportStatic(ctx context.Context, cfg config.Config, outDir string, fromValue string, toValue string) error {
 	from, err := time.Parse(time.DateOnly, fromValue)
 	if err != nil {
@@ -220,6 +228,7 @@ func writeStaticData(ctx context.Context, db *store.Store, outDir string, from t
 	if err := os.MkdirAll(placesDir, 0o755); err != nil {
 		return err
 	}
+	var allEvents []staticEvent
 	for _, place := range places {
 		loadedPlace, events, err := db.EventsForPlace(ctx, place.ID, from, to)
 		if err != nil {
@@ -229,9 +238,15 @@ func writeStaticData(ctx context.Context, db *store.Store, outDir string, from t
 			Place:  loadedPlace,
 			Events: compactEvents(events),
 		}
+		allEvents = append(allEvents, compactEvents(events)...)
 		if err := writeJSON(filepath.Join(placesDir, fmt.Sprintf("%d.json", place.ID)), payload); err != nil {
 			return err
 		}
+	}
+	// Write precomputed stats
+	stats := buildStats(allEvents, generatedAt, len(places))
+	if err := writeJSON(filepath.Join(outDir, "data/stats.json"), stats); err != nil {
+		return err
 	}
 	return nil
 }
@@ -252,6 +267,27 @@ func compactEvents(events []domain.Event) []staticEvent {
 		})
 	}
 	return out
+}
+
+func buildStats(events []staticEvent, generatedAt string, totalPlaces int) staticStats {
+	wasteTypeCounts := make(map[string]int)
+	dailyBreakdown := make(map[string]map[string]int)
+
+	for _, e := range events {
+		wasteTypeCounts[string(e.WasteType)]++
+		if _, ok := dailyBreakdown[e.Date]; !ok {
+			dailyBreakdown[e.Date] = make(map[string]int)
+		}
+		dailyBreakdown[e.Date][string(e.WasteType)]++
+	}
+
+	return staticStats{
+		GeneratedAt:     generatedAt,
+		TotalPlaces:     totalPlaces,
+		TotalEvents:     len(events),
+		WasteTypeCounts: wasteTypeCounts,
+		DailyBreakdown:  dailyBreakdown,
+	}
 }
 
 func writeJSON(path string, payload any) error {

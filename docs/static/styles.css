@@ -295,9 +295,12 @@ input {
 
 .search-results {
   position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
   z-index: 80;
   width: min(620px, calc(100vw - 48px));
-  margin-top: 8px;
+  margin-top: 4px;
   max-height: 340px;
   overflow: hidden;
   overflow-y: auto;
@@ -424,10 +427,9 @@ input {
   color: #263553;
 }
 
-.program-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 380px;
-  gap: 36px;
+.program-flow {
+  max-width: 1000px;
+  margin: 0 auto;
   padding-bottom: 70px;
 }
 
@@ -528,6 +530,8 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-bottom: 24px;
 }
 
@@ -537,9 +541,40 @@ input {
   gap: 24px;
 }
 
+.cal-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .button.sm {
-  padding: 8px 16px;
+  min-height: 40px;
+  padding: 6px 16px;
   font-size: 14px;
+}
+
+.source-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+  padding: 18px 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.source-strip p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.source-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .calendar-head h3 {
@@ -737,7 +772,7 @@ a.event-chip:hover,
   width: 1120px;
   min-height: 792px;
   margin: 32px auto;
-  padding: 42px;
+  padding: 48px;
   background: #fff;
   box-shadow: var(--shadow);
 }
@@ -746,7 +781,9 @@ a.event-chip:hover,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid var(--line);
   color: #203150;
   font-weight: 800;
 }

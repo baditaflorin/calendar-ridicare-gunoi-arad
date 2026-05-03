@@ -30,8 +30,8 @@ function renderPrint(place, events, month) {
       </div>
       <span>Programul tau. Orasul nostru.</span>
     </header>
-    <h1>Calendar de colectare - Strada ${escapeHTML(place.street_raw)}, ${escapeHTML(place.cartier || "Arad")}</h1>
-    <h2>${printMonthNames[month.getMonth()]} ${month.getFullYear()}</h2>
+    <h1 style="letter-spacing: -0.5px; word-spacing: 2px;">Calendar de colectare &mdash; Strada ${escapeHTML(place.street_raw)}, ${escapeHTML(place.cartier || "Arad")}</h1>
+    <h2 style="margin-bottom: 18px;">${printMonthNames[month.getMonth()]} ${month.getFullYear()}</h2>
     <div class="print-calendar">
       ${printWeekdays.map((day) => `<div class="print-weekday">${day}</div>`).join("")}
       ${days.map((day) => `
