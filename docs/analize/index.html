@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Manifest - Gunoi Arad</title>
+  <title>Analiza Statistici - Gunoi Arad</title>
   <link rel="stylesheet" href="../static/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="../static/analize.js"></script>
   <script>window.GUNOI_STATIC = true;</script>
 </head>
 <body>
@@ -14,28 +16,40 @@
       <span>Gunoi <strong>Arad</strong></span>
     </a>
     <nav class="topnav" aria-label="Navigare">
-      <a href="../">Program</a>
+      <a href="../">Calendar</a>
       <a href="../analize/">Statistici</a>
       <a href="../manifesto/">Manifest</a>
     </nav>
   </header>
   <main class="text-page">
     <a class="back-link" href="../">Inapoi la program</a>
-    <h1>Manifest pentru servicii publice care respecta oamenii</h1>
-    <p>Calendarul acesta exista fiindca informatia publica importanta este publicata intr-o forma greu de cautat, greu de verificat si greu de folosit pe telefon.</p>
-    <p>O administratie locala serioasa ar publica un API, date deschise versionate, fisiere usor de reutilizat si o experienta clara pentru cetateni. Nu ar trebui ca locuitorii sa sape prin tabele, PDF-uri vechi si pagini greu de parcurs ca sa afle cand se ridica gunoiul.</p>
-    <p>Votati oameni care cer servicii publice digitale curate, auditabile si utile. Incompetenta, clientelismul si indiferenta costa timp real din viata fiecarui cetatean.</p>
-    <h2>Ce cerem</h2>
-    <ul>
-      <li>API public pentru programul de colectare, cu istoric si data ultimei actualizari.</li>
-      <li>Date oficiale pe strada, cartier, fractie, interval si sursa.</li>
-      <li>Notificari si export calendar fara conturi inutile.</li>
-      <li>Pagini accesibile, rapide, verificabile si prietenoase cu printul.</li>
-    </ul>
-    <p class="credit-line">Pana atunci, acest proiect pastreaza trasabilitatea catre sursele oficiale RETIM si Primaria Arad.</p>
+    <h1>Statistici Colectare Arad</h1>
+    <p>O imagine de ansamblu asupra celor 1064 de străzi din municipiul Arad și a modului în care este gestionată colectarea deșeurilor.</p>
+
+    <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px;">
+      <section class="stats-card" style="padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: #fff;">
+        <h3>Distribuția pe cartiere</h3>
+        <canvas id="chart-neighborhoods"></canvas>
+      </section>
+      
+      <section class="stats-card" style="padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: #fff;">
+        <h3>Colectarea de AZI în Arad</h3>
+        <div id="today-stats" style="margin-top: 20px;">
+          <p>Se calculează datele pentru suta de mii de evenimente...</p>
+        </div>
+        <canvas id="chart-today"></canvas>
+      </section>
+
+      <section class="stats-card" style="padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: #fff;">
+        <h3>Frecvența tipurilor de deșeuri</h3>
+        <p style="font-size: 14px; color: var(--muted);">Câte străzi au programat fiecare tip de deșeu în cursul unei luni medii.</p>
+        <canvas id="chart-waste-types"></canvas>
+      </section>
+    </div>
+
     <footer class="site-footer">
       <p>Date publice RETIM si Primaria Arad. Interfata civica independenta, construita ca informatia sa fie cautabila, verificabila si printabila.</p>
-      <p><a href="../">Inapoi la calendar</a> · <a href="../analize/">Statistici</a> · <a href="../ghid/">Ghid de colectare</a></p>
+      <p><a href="../">Inapoi la calendar</a> · <a href="../manifesto/">Citeste manifestul</a> · <a href="../ghid/">Ghid de colectare</a></p>
       <div class="developer-credit" style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 14px; color: #64748b;">
         <span>Dezvoltat pro-bono de <a href="https://www.linkedin.com/in/baditaflorin/" target="_blank" rel="noreferrer">Florin Badita</a>.</span>
         <span style="margin: 0 8px;">|</span>
