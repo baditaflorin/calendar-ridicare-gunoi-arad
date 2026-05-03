@@ -170,6 +170,11 @@ window.downloadImage = async function() {
   const btn = document.querySelector(".print-toolbar button");
   const originalText = btn.textContent;
   
+  if (!window.html2canvas) {
+    alert("Libraria de generare imagine nu s-a incarcat inca. Te rugam sa mai astepti o secunda.");
+    return;
+  }
+
   try {
     btn.textContent = "Se genereaza imaginea...";
     btn.disabled = true;
@@ -177,8 +182,10 @@ window.downloadImage = async function() {
     const canvas = await html2canvas(paper, {
       scale: 2,
       useCORS: true,
+      allowTaint: true,
       backgroundColor: "#ffffff",
       windowWidth: 1200,
+      logging: true,
     });
     
     const image = canvas.toDataURL("image/png", 1.0);
@@ -194,7 +201,7 @@ window.downloadImage = async function() {
     link.click();
   } catch(err) {
     console.error("Failed to generate image", err);
-    alert("Eroare la generarea imaginii.");
+    alert("Eroare la generarea imaginii: " + err.message);
   } finally {
     btn.textContent = originalText;
     btn.disabled = false;

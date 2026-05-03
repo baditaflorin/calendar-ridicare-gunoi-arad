@@ -452,6 +452,7 @@ input {
   max-width: 100%;
   height: auto;
   filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+  mix-blend-mode: multiply;
 }
 
 .calendar-panel {
