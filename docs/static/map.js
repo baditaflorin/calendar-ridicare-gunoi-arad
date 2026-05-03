@@ -87,8 +87,84 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   neighborhood.addEventListener("change", loadPlaces);
   street.addEventListener("input", debounce(loadPlaces, 180));
+  
+  document.querySelector("#btn-pattern-today").addEventListener("click", async () => {
+    const targetNeighborhood = neighborhood.value || "centru";
+    const streets = (catalog.places || []).filter(p => p.cartier_norm === targetNeighborhood);
+    
+    if (streets.length === 0) {
+      alert("Nu am gasit strazi in cartierul selectat.");
+      return;
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+    const results = document.querySelector("#map-results");
+    results.innerHTML = `<p>Analizam ${streets.length} strazi din ${targetNeighborhood}... va dura putin din cauza geocodarii.</p>`;
+
+    for (const place of streets) {
+      try {
+        // 1. Fetch events
+        const payload = await fetchJSON(new URL(`places/${place.id}.json`, dataRoot));
+        const eventToday = (payload.events || []).find(e => e.date === today);
+        
+        if (eventToday) {
+          const query = `Strada ${place.street_raw}, Arad, Romania`;
+          const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
+          const geoData = await res.json();
+          
+          if (geoData && geoData.length > 0) {
+            const lat = parseFloat(geoData[0].lat);
+            const lon = parseFloat(geoData[0].lon);
+            const color = wasteColor(eventToday.waste_type);
+            
+            L.circleMarker([lat, lon], {
+              radius: 8,
+              fillColor: color,
+              color: "#fff",
+              weight: 2,
+              opacity: 1,
+              fillOpacity: 0.8
+            }).addTo(map)
+              .bindPopup(`<strong>${escapeHTML(place.street_raw)}</strong><br>Azi: ${escapeHTML(wasteLabel(eventToday.waste_type))}`);
+          }
+          // Delay to respect Nominatim rate limit
+          await new Promise(r => setTimeout(r, 1000));
+        }
+      } catch (err) {
+        console.error(`Failed to analyze ${place.street_raw}`, err);
+      }
+    }
+    results.innerHTML = `<p>Analiza finalizata pentru ${targetNeighborhood}.</p>`;
+  });
+
   loadPlaces();
 });
+
+function wasteLabel(type) {
+  return {
+    residual: "Rezidual",
+    bio: "Bio",
+    paper: "Hartie & Carton",
+    plastic_metal: "Plastic & Metal",
+    glass: "Sticla",
+    bulky: "Voluminoase",
+    textile: "Textile",
+    hazardous: "Periculoase",
+  }[type] || type;
+}
+
+function wasteColor(type) {
+  return {
+    residual: "#374151",
+    bio: "#16a34a",
+    paper: "#2563eb",
+    plastic_metal: "#eab308",
+    glass: "#16a34a",
+    bulky: "#7c3aed",
+    textile: "#db2777",
+    hazardous: "#dc2626",
+  }[type] || "#64748b";
+}
 
 function staticPlaces(catalog, neighborhood, query, limit) {
   const q = normalizeText(query);

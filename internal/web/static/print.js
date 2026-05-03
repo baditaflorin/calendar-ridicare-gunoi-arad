@@ -60,7 +60,16 @@ function renderPrint(place, events, month) {
       </div>
     </section>
     <footer class="print-credit">
-      Date publice RETIM si Primaria Arad. Calendar independent pentru uz civic. Alege "Save as PDF" in dialogul de print pentru descarcare.
+      <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <p>Date publice RETIM si Primaria Arad. Calendar independent pentru uz civic.</p>
+          <p>Dezvoltat pro-bono de <strong>Florin Badita</strong> (baditaflorin@gmail.com)</p>
+        </div>
+        <div style="text-align: right;">
+          <p>Sustine proiectul: <strong>paypal.me/florinbadita</strong></p>
+          <p>baditaflorin.github.io/calendar-ridicare-gunoi-arad/</p>
+        </div>
+      </div>
     </footer>
   `;
 }

@@ -18,9 +18,7 @@
     <nav class="topnav" aria-label="Navigare">
       <a href="/">Program</a>
       <a href="/map">Harta</a>
-      <a href="/ghid">Ghid</a>
       <a href="/manifesto">Manifest</a>
-      <a href="https://www.openstreetmap.org/#map=12/46.1866/21.3123" target="_blank" rel="noreferrer">OpenStreetMap</a>
     </nav>
   </header>
   <main class="map-page">
@@ -38,12 +36,15 @@
         </select>
         <label for="map-street">Strada</label>
         <input id="map-street" placeholder="Cauta strada">
+        <div style="margin-top: 12px;">
+          <button id="btn-pattern-today" class="button secondary" style="width: 100%;">Analiza colectare azi (Centru)</button>
+        </div>
         <div id="map-results" class="map-results"></div>
       </aside>
     </section>
     <footer class="site-footer">
       <p>Date publice RETIM si Primaria Arad. Interfata civica independenta, construita ca informatia sa fie cautabila, verificabila si printabila.</p>
-      <p><a href="/">Inapoi la calendar</a> · <a href="/manifesto">Citeste manifestul</a></p>
+      <p><a href="/">Inapoi la calendar</a> · <a href="/manifesto">Citeste manifestul</a> · <a href="/ghid">Ghid de colectare</a></p>
       <div class="developer-credit" style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 14px; color: #64748b;">
         <span>Dezvoltat pro-bono de <a href="https://www.linkedin.com/in/baditaflorin/" target="_blank" rel="noreferrer">Florin Badita</a>.</span>
         <span style="margin: 0 8px;">|</span>
