@@ -122,7 +122,7 @@ input {
   position: absolute;
   inset: 84px 28% auto 35%;
   height: 190px;
-  background: url("/static/arad-watercolor.png") center / contain no-repeat;
+  background: url("arad-watercolor.png") center / contain no-repeat;
   opacity: 0.42;
   pointer-events: none;
   z-index: 0;

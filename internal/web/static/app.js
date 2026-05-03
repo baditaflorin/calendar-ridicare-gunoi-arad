@@ -166,7 +166,7 @@ function renderNext() {
   }
   const date = parseDate(next.date);
   card.className = "next-card"; // Reset just in case
-  const imgURL = staticMode ? new URL(`images/${wasteImage(next.waste_type)}`, siteRoot) : `/static/images/${wasteImage(next.waste_type)}`;
+  const imgURL = staticMode ? new URL(`static/images/${wasteImage(next.waste_type)}`, siteRoot) : `/static/images/${wasteImage(next.waste_type)}`;
   
   card.innerHTML = `
     <div class="next-content">
