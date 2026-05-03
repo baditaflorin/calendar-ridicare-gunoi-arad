@@ -23,9 +23,8 @@ type staticCatalog struct {
 }
 
 type staticPlaceFile struct {
-	GeneratedAt string        `json:"generated_at"`
-	Place       domain.Place  `json:"place"`
-	Events      []staticEvent `json:"events"`
+	Place  domain.Place  `json:"place"`
+	Events []staticEvent `json:"events"`
 }
 
 type staticEvent struct {
@@ -178,13 +177,14 @@ func staticPrintHTML() string {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Calendar de colectare - Gunoi Arad</title>
   <link rel="stylesheet" href="../static/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQmJb1oB1wPZq8CItO010iqGzBnaB0y51K028T2XJbHw1r3wU2O8M7m+yK0z4X/yB7rQ+9lK+r0mHqB8pCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>window.GUNOI_STATIC = true;</script>
   <script defer src="../static/print.js"></script>
 </head>
 <body class="print-body">
   <nav class="print-toolbar" aria-label="Actiuni calendar">
     <a id="print-back" href="../">Inapoi la program</a>
-    <button type="button" onclick="window.print()">Salveaza ca PDF / Printeaza</button>
+    <button type="button" onclick="downloadImage()">Descarca Imagine (PNG)</button>
   </nav>
   <main class="paper" id="print-paper">
     <p>Se incarca calendarul...</p>
@@ -220,9 +220,8 @@ func writeStaticData(ctx context.Context, db *store.Store, outDir string, from t
 			return err
 		}
 		payload := staticPlaceFile{
-			GeneratedAt: generatedAt,
-			Place:       loadedPlace,
-			Events:      compactEvents(events),
+			Place:  loadedPlace,
+			Events: compactEvents(events),
 		}
 		if err := writeJSON(filepath.Join(placesDir, fmt.Sprintf("%d.json", place.ID)), payload); err != nil {
 			return err
