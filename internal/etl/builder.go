@@ -209,7 +209,46 @@ func cleanCartier(value string) string {
 	for _, prefix := range prefixes {
 		value = strings.TrimPrefix(value, prefix)
 	}
-	return compact(value)
+	value = compact(value)
+
+	lower := strings.ToLower(search.Normalize(value))
+	if strings.Contains(lower, "micala") {
+		return "Micalaca"
+	}
+	if strings.Contains(lower, "gradiste") || strings.Contains(lower, "gradi") {
+		return "Gradiste"
+	}
+	if strings.Contains(lower, "aradul nou") {
+		return "Aradul Nou"
+	}
+	if strings.Contains(lower, "centru") {
+		return "Centru"
+	}
+	if strings.Contains(lower, "vlaicu") {
+		return "Aurel Vlaicu"
+	}
+	if strings.Contains(lower, "sanicolau") || strings.Contains(lower, "sannicolau") {
+		return "Sanicolau Mic"
+	}
+	if strings.Contains(lower, "parneava") || strings.Contains(lower, "pârneava") {
+		return "Parneava"
+	}
+	if strings.Contains(lower, "vanatori") || strings.Contains(lower, "vânători") {
+		return "6 Vanatori"
+	}
+	if strings.Contains(lower, "dragasani") || strings.Contains(lower, "drăgășani") {
+		return "Dragasani"
+	}
+	if strings.Contains(lower, "functionarilor") || strings.Contains(lower, "funcționarilor") {
+		return "Functionarilor"
+	}
+	if strings.Contains(lower, "verde") {
+		return "Verde"
+	}
+	if strings.Contains(lower, "romana residence") {
+		return "Romana Residence"
+	}
+	return value
 }
 
 func compact(value string) string {

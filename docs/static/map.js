@@ -1,10 +1,11 @@
+const staticMode = window.GUNOI_STATIC === true;
+const siteRoot = new URL("../", document.currentScript.src);
+const dataRoot = new URL("data/", siteRoot);
+
 document.addEventListener("DOMContentLoaded", async () => {
   const neighborhood = document.querySelector("#map-neighborhood");
   const street = document.querySelector("#map-street");
   const results = document.querySelector("#map-results");
-  const staticMode = window.GUNOI_STATIC === true;
-  const siteRoot = new URL("../", document.currentScript.src);
-  const dataRoot = new URL("data/", siteRoot);
   let catalog;
 
   const data = staticMode ? await fetchJSON(new URL("catalog.json", dataRoot)) : await fetchJSON("/api/neighborhoods");
