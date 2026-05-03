@@ -1,0 +1,13 @@
+.git
+.smoke
+data/db
+data/raw
+bin
+dist
+tmp
+*.db
+*.db-shm
+*.db-wal
+.env
+.env.*
+!.env.example
