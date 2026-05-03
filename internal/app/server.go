@@ -45,6 +45,7 @@ func (s *Server) Handler() http.Handler {
 	r.Get("/", s.home)
 	r.Get("/program", s.home)
 	r.Get("/manifesto", s.manifesto)
+	r.Get("/ghid", s.ghid)
 	r.Get("/map", s.mapPage)
 	r.Get("/print", s.print)
 	r.Get("/ics", s.ics)
@@ -68,6 +69,11 @@ func (s *Server) home(w http.ResponseWriter, r *http.Request) {
 func (s *Server) manifesto(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	_ = s.templates.ExecuteTemplate(w, "manifesto.html", nil)
+}
+
+func (s *Server) ghid(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	_ = s.templates.ExecuteTemplate(w, "ghid.html", nil)
 }
 
 func (s *Server) mapPage(w http.ResponseWriter, r *http.Request) {

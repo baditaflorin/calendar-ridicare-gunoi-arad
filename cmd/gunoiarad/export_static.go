@@ -112,6 +112,7 @@ func writeStaticPages(outDir string) error {
 		{"templates/index.html", "program/index.html", "../"},
 		{"templates/map.html", "map/index.html", "../"},
 		{"templates/manifesto.html", "manifesto/index.html", "../"},
+		{"templates/ghid.html", "ghid/index.html", "../"},
 	}
 	for _, page := range pages {
 		content, err := web.Assets.ReadFile(page.template)
@@ -119,7 +120,11 @@ func writeStaticPages(outDir string) error {
 			return err
 		}
 		html := staticHTML(string(content), page.prefix)
-		if err := os.WriteFile(filepath.Join(outDir, page.target), []byte(html), 0o644); err != nil {
+		targetPath := filepath.Join(outDir, page.target)
+		if err := os.MkdirAll(filepath.Dir(targetPath), 0o755); err != nil {
+			return err
+		}
+		if err := os.WriteFile(targetPath, []byte(html), 0o644); err != nil {
 			return err
 		}
 	}
@@ -136,6 +141,7 @@ func staticHTML(html string, prefix string) string {
 		`href="/"`:          `href="` + prefix + `"`,
 		`href="/map"`:       `href="` + prefix + `map/"`,
 		`href="/manifesto"`: `href="` + prefix + `manifesto/"`,
+		`href="/ghid"`:      `href="` + prefix + `ghid/"`,
 		`href="https://retim.ro/utile-arad/zona-1/"`: `href="https://retim.ro/utile-arad/zona-1/"`,
 		`<a href="/metrics">Metrics</a>`:             `<a href="https://retim.ro/utile-arad/zona-1/" target="_blank" rel="noreferrer">RETIM</a>`,
 	}
