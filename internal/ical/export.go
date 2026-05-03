@@ -28,6 +28,7 @@ func Build(place domain.Place, events []domain.Event, publicBaseURL string) stri
 		if item.SourceURL != "" {
 			description += " Sursa: " + item.SourceURL
 		}
+		description += "\n\nMultumiri dezvoltatorului baditaflorin@gmail.com. Mai multe detalii pe: https://baditaflorin.github.io/calendar-ridicare-gunoi-arad/"
 		event.SetDescription(description)
 		if publicBaseURL != "" {
 			event.SetURL(strings.TrimRight(publicBaseURL, "/") + "/program?place_id=" + fmt.Sprint(place.ID))
