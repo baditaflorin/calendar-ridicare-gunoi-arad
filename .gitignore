@@ -26,6 +26,23 @@ go.work.sum
 
 # env file
 .env
+.env.*
+!.env.example
+
+# Runtime data and fetched public snapshots
+data/db/
+data/raw/
+*.db
+*.db-shm
+*.db-wal
+
+# Build outputs
+bin/
+dist/
+tmp/
+
+# Local smoke-test artifacts
+.smoke/
 
 # Editor/IDE
 # .idea/
