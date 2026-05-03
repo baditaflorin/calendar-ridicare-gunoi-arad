@@ -8,6 +8,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const results = document.querySelector("#map-results");
   let catalog;
 
+  // Initialize Leaflet map
+  const map = L.map('map').setView([46.1866, 21.3123], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+  let currentPopup = null;
+
   const data = staticMode ? await fetchJSON(new URL("catalog.json", dataRoot)) : await fetchJSON("/api/neighborhoods");
   catalog = data;
   const neighborhoods = data.neighborhoods || [];
@@ -27,19 +36,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     const rows = staticMode ? staticPlaces(catalog, neighborhood.value, street.value, 18) : (await fetchJSON(`/api/places?${params.toString()}`)).results || [];
     results.innerHTML = rows.map(({ place }) => {
-      const query = encodeURIComponent(`Strada ${place.street_raw}, ${place.cartier}, Arad, Romania`);
       return `
         <article class="map-result">
           <div>
             <strong>${escapeHTML(place.street_raw)}</strong>
             <span>${escapeHTML(place.cartier || "Arad")}</span>
           </div>
+          <button class="map-pin-btn" data-street="${escapeHTML(place.street_raw)}" data-cartier="${escapeHTML(place.cartier || "")}" data-id="${place.id}">📍 Vezi</button>
           <a href="${staticMode ? new URL(`program/?place_id=${place.id}`, siteRoot).toString() : `/program?place_id=${place.id}`}">Program</a>
-          <a href="https://www.openstreetmap.org/search?query=${query}" target="_blank" rel="noreferrer">OSM</a>
         </article>
       `;
     }).join("") || `<p class="quiet">Nu am gasit strazi pentru filtrul curent.</p>`;
   };
+
+  results.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".map-pin-btn");
+    if (!btn) return;
+    const street = btn.dataset.street;
+    const cartier = btn.dataset.cartier;
+    const placeId = btn.dataset.id;
+    const query = `Strada ${street}, ${cartier ? cartier + ',' : ''} Arad, Romania`;
+    
+    btn.textContent = "⌛";
+    btn.disabled = true;
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
+      const data = await res.json();
+      if (data && data.length > 0) {
+        const item = data[0];
+        const lat = parseFloat(item.lat);
+        const lon = parseFloat(item.lon);
+        map.flyTo([lat, lon], 16);
+        const programLink = staticMode ? new URL(`program/?place_id=${placeId}`, siteRoot).toString() : `/program?place_id=${placeId}`;
+        if (currentPopup) currentPopup.remove();
+        currentPopup = L.popup()
+          .setLatLng([lat, lon])
+          .setContent(`<div style="text-align:center;"><strong>${escapeHTML(street)}</strong><br>${escapeHTML(cartier)}<br><br><a href="${programLink}" style="font-weight:bold;">Vezi Programul</a></div>`)
+          .openOn(map);
+      } else {
+        alert("Nu am gasit coordonatele pentru strada cautata.");
+      }
+    } catch(err) {
+      console.error(err);
+      alert("Eroare la conectarea cu OpenStreetMap.");
+    } finally {
+      btn.textContent = "📍 Vezi";
+      btn.disabled = false;
+    }
+  });
 
   neighborhood.addEventListener("change", loadPlaces);
   street.addEventListener("input", debounce(loadPlaces, 180));

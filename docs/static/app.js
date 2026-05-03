@@ -448,7 +448,7 @@ function downloadICS() {
       "BEGIN:VEVENT",
       `UID:${start}-${state.place.id}-${event.waste_type}@gunoiarad-static`,
       `SUMMARY:${escapeICS(event.label)} - ${escapeICS(state.place.street_raw)}`,
-      `DESCRIPTION:${escapeICS(event.source_url ? `Verifica sursa: ${event.source_url}` : "Program generat din date publice.")}`,
+      `DESCRIPTION:${escapeICS((event.source_url ? `Verifica sursa: ${event.source_url}` : "Program generat din date publice.") + "\n\nMultumiri dezvoltatorului baditaflorin@gmail.com. Mai multe detalii pe: https://baditaflorin.github.io/calendar-ridicare-gunoi-arad/")}`,
       `DTSTART;VALUE=DATE:${start}`,
       `DTEND;VALUE=DATE:${end}`,
       "END:VEVENT",
