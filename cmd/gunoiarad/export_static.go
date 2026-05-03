@@ -151,8 +151,16 @@ func staticRedirectHTML() string {
 <html lang="ro">
 <meta charset="utf-8">
 <title>Gunoi Arad</title>
-<script>location.replace("./");</script>
-<p><a href="./">Inapoi la Gunoi Arad</a></p>
+<script>
+  if (sessionStorage.getItem('redirect_loop') === location.href) {
+    sessionStorage.removeItem('redirect_loop');
+    document.write('<p>Pagina nu a fost gasita.</p>');
+  } else {
+    sessionStorage.setItem('redirect_loop', location.href);
+    location.replace("./");
+  }
+</script>
+<noscript><p><a href="./">Inapoi la Gunoi Arad</a></p></noscript>
 </html>`
 }
 

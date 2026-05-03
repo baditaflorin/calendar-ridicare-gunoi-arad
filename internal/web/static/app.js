@@ -289,7 +289,9 @@ function printURL() {
 
 function programURL(placeId) {
   if (staticMode) {
-    return pageURL(`program/?place_id=${placeId}`);
+    const url = new URL(window.location.href);
+    url.searchParams.set("place_id", placeId);
+    return url.toString();
   }
   return `/program?place_id=${placeId}`;
 }
