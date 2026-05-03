@@ -44,6 +44,8 @@ func (s *Server) Handler() http.Handler {
 	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.FS(staticFS))))
 	r.Get("/", s.home)
 	r.Get("/program", s.home)
+	r.Get("/manifesto", s.manifesto)
+	r.Get("/map", s.mapPage)
 	r.Get("/print", s.print)
 	r.Get("/ics", s.ics)
 	r.Get("/api/search", s.search)
@@ -61,6 +63,16 @@ func (s *Server) home(w http.ResponseWriter, r *http.Request) {
 	_ = s.templates.ExecuteTemplate(w, "index.html", map[string]any{
 		"PublicBaseURL": s.config.PublicBaseURL,
 	})
+}
+
+func (s *Server) manifesto(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	_ = s.templates.ExecuteTemplate(w, "manifesto.html", nil)
+}
+
+func (s *Server) mapPage(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	_ = s.templates.ExecuteTemplate(w, "map.html", nil)
 }
 
 func (s *Server) search(w http.ResponseWriter, r *http.Request) {
@@ -151,12 +163,14 @@ func (s *Server) print(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	data := printData{
-		Place:     place,
-		Month:     from,
-		MonthName: romanianMonth(from.Month()) + " " + strconv.Itoa(from.Year()),
-		Days:      buildMonthGrid(from, events),
-		Legend:    legend(events),
-		UpdatedAt: latestFetchedAt(events),
+		Place:      place,
+		Month:      from,
+		MonthName:  romanianMonth(from.Month()) + " " + strconv.Itoa(from.Year()),
+		Days:       buildMonthGrid(from, events),
+		Legend:     legend(events),
+		UpdatedAt:  latestFetchedAt(events),
+		ProgramURL: "/program?place_id=" + strconv.FormatInt(place.ID, 10),
+		Sources:    sources(events),
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	_ = s.templates.ExecuteTemplate(w, "print.html", data)

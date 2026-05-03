@@ -44,6 +44,9 @@ type Rule struct {
 	ValidFrom      *time.Time
 	ValidTo        *time.Time
 	SourceID       int64
+	SourceURL      string
+	FetchedAt      string
+	Confidence     float64
 }
 
 type Event struct {

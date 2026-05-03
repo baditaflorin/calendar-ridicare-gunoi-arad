@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body class="print-body">
+  <nav class="print-toolbar" aria-label="Actiuni calendar">
+    <a href="{{ .ProgramURL }}">Inapoi la program</a>
+    <button type="button" onclick="window.print()">Salveaza ca PDF / Printeaza</button>
+  </nav>
   <main class="paper">
     <header class="paper-head">
       <div class="brand print-brand">
@@ -54,9 +58,16 @@
       </div>
       <div>
         <h3>Actualizare</h3>
-        <p>{{ if .UpdatedAt }}Sursa verificata la {{ .UpdatedAt }}.{{ else }}Sursa verificata automat.{{ end }}</p>
+        <p>{{ if .UpdatedAt }}Sursa verificata pe {{ .UpdatedAt }}.{{ else }}Sursa verificata automat.{{ end }}</p>
+        {{ range .Sources }}
+          <p><a href="{{ .URL }}" target="_blank" rel="noreferrer">{{ .Label }}</a></p>
+        {{ end }}
       </div>
     </section>
+
+    <footer class="print-credit">
+      Date publice RETIM si Primaria Arad. Calendar independent pentru uz civic. Alege "Save as PDF" in dialogul de print pentru descarcare.
+    </footer>
   </main>
 </body>
 </html>

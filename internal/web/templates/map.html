@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experiment harta - Gunoi Arad</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="/static/map.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Gunoi Arad">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>Gunoi <strong>Arad</strong></span>
+    </a>
+    <nav class="topnav" aria-label="Navigare">
+      <a href="/">Program</a>
+      <a href="/manifesto">Manifest</a>
+      <a href="https://www.openstreetmap.org/#map=12/46.1866/21.3123" target="_blank" rel="noreferrer">OpenStreetMap</a>
+    </nav>
+  </header>
+  <main class="map-page">
+    <section class="map-copy">
+      <a class="back-link" href="/">Inapoi la program</a>
+      <h1>Experiment harta</h1>
+      <p>O vedere rapida peste Arad si un catalog cautabil pe cartiere. Nu folosim inca geocodare server-side, deci harta este orientativa.</p>
+    </section>
+    <section class="map-layout">
+      <div class="map-frame">
+        <iframe title="Harta Arad pe OpenStreetMap" src="https://www.openstreetmap.org/export/embed.html?bbox=21.213%2C46.119%2C21.420%2C46.252&amp;layer=mapnik"></iframe>
+      </div>
+      <aside class="map-panel">
+        <label for="map-neighborhood">Cartier</label>
+        <select id="map-neighborhood">
+          <option value="">Alege un cartier</option>
+        </select>
+        <label for="map-street">Strada</label>
+        <input id="map-street" placeholder="Cauta strada">
+        <div id="map-results" class="map-results"></div>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>

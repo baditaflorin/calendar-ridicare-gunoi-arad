@@ -9,6 +9,7 @@ MVP-ul descarca sursele publice RETIM, pastreaza snapshot-uri brute cu hash, par
 - evenimente recurente si date exacte pentru fractii;
 - export ICS;
 - pagina printabila A4;
+- pagina experimentala `/map` pentru orientare vizuala;
 - `/metrics` pentru Prometheus;
 - Docker Compose cu Nginx pe portul `26453`.
 
@@ -21,6 +22,19 @@ go run ./cmd/gunoiarad serve --addr :18080 --db .smoke/dev.db --raw-dir .smoke/r
 ```
 
 Deschide apoi `http://localhost:18080`.
+
+## GitHub Pages Static
+
+Pentru public, varianta recomandata este frontend static + JSON comis in repo. Rulezi ETL local, exporti fisierele in `docs/`, apoi configurezi GitHub Pages sa serveasca branch-ul `main` din folderul `/docs`.
+
+```bash
+scripts/export-static.sh
+git add docs
+git commit -m "data: refresh static calendar export"
+git push
+```
+
+Frontend-ul static citeste `docs/data/catalog.json` si `docs/data/places/*.json`. Nu are nevoie de backend live pentru cautare, calendar, print A4 sau export ICS.
 
 ## Hook-uri Locale
 

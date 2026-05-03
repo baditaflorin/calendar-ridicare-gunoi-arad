@@ -513,9 +513,21 @@ func (s *Store) exactEvents(ctx context.Context, place domain.Place, from, to ti
 }
 
 func (s *Store) rulesForPlace(ctx context.Context, placeID int64) ([]domain.Rule, error) {
-	rows, err := s.db.QueryContext(ctx, `SELECT id, place_id, waste_type, recurrence_kind, weekday, week_label, valid_from, valid_to, source_id
-		FROM rules
-		WHERE place_id = ?`, placeID)
+	rows, err := s.db.QueryContext(ctx, `SELECT
+			r.id,
+			r.place_id,
+			r.waste_type,
+			r.recurrence_kind,
+			r.weekday,
+			r.week_label,
+			r.valid_from,
+			r.valid_to,
+			r.source_id,
+			s.url,
+			s.fetched_at
+		FROM rules r
+		LEFT JOIN sources s ON s.id = r.source_id
+		WHERE r.place_id = ?`, placeID)
 	if err != nil {
 		return nil, err
 	}
@@ -527,11 +539,15 @@ func (s *Store) rulesForPlace(ctx context.Context, placeID int64) ([]domain.Rule
 		var waste string
 		var weekday int
 		var validFrom, validTo string
-		if err := rows.Scan(&rule.ID, &rule.PlaceID, &waste, &rule.RecurrenceKind, &weekday, &rule.WeekLabel, &validFrom, &validTo, &rule.SourceID); err != nil {
+		if err := rows.Scan(&rule.ID, &rule.PlaceID, &waste, &rule.RecurrenceKind, &weekday, &rule.WeekLabel, &validFrom, &validTo, &rule.SourceID, &rule.SourceURL, &rule.FetchedAt); err != nil {
 			return nil, err
 		}
 		rule.WasteType = domain.WasteType(waste)
 		rule.Weekday = time.Weekday(weekday)
+		rule.Confidence = 1
+		if rule.RecurrenceKind == "weekly_inferred_cartier" {
+			rule.Confidence = 0.75
+		}
 		if validFrom != "" {
 			parsed, _ := time.Parse(time.DateOnly, validFrom)
 			rule.ValidFrom = &parsed
@@ -566,8 +582,10 @@ func generateRuleEvents(rules []domain.Rule, from, to time.Time) []domain.Event 
 				Date:       current,
 				StartTime:  "07:00",
 				Title:      domain.WasteLabel(rule.WasteType),
-				Kind:       "recurring",
-				Confidence: 1,
+				Kind:       rule.RecurrenceKind,
+				SourceURL:  rule.SourceURL,
+				FetchedAt:  rule.FetchedAt,
+				Confidence: rule.Confidence,
 				Generated:  true,
 			}))
 		}

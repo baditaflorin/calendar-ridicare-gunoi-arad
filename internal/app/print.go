@@ -7,12 +7,14 @@ import (
 )
 
 type printData struct {
-	Place     domain.Place
-	Month     time.Time
-	MonthName string
-	Days      []calendarDay
-	Legend    []legendItem
-	UpdatedAt string
+	Place      domain.Place
+	Month      time.Time
+	MonthName  string
+	Days       []calendarDay
+	Legend     []legendItem
+	UpdatedAt  string
+	ProgramURL string
+	Sources    []sourceLink
 }
 
 type calendarDay struct {
@@ -26,6 +28,11 @@ type legendItem struct {
 	Type  domain.WasteType
 	Label string
 	Color string
+}
+
+type sourceLink struct {
+	Label string
+	URL   string
 }
 
 func buildMonthGrid(month time.Time, events []domain.Event) []calendarDay {
@@ -79,10 +86,27 @@ func legend(events []domain.Event) []legendItem {
 func latestFetchedAt(events []domain.Event) string {
 	for _, event := range events {
 		if event.FetchedAt != "" {
+			parsed, err := time.Parse(time.RFC3339, event.FetchedAt)
+			if err == nil {
+				return parsed.Format("2") + " " + romanianMonth(parsed.Month()) + " " + parsed.Format("2006")
+			}
 			return event.FetchedAt
 		}
 	}
 	return ""
+}
+
+func sources(events []domain.Event) []sourceLink {
+	seen := map[string]bool{}
+	var out []sourceLink
+	for _, event := range events {
+		if event.SourceURL == "" || seen[event.SourceURL] {
+			continue
+		}
+		seen[event.SourceURL] = true
+		out = append(out, sourceLink{Label: "Verifica sursa oficiala", URL: event.SourceURL})
+	}
+	return out
 }
 
 func romanianMonth(month time.Month) string {

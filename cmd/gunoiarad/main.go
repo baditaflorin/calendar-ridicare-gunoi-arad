@@ -39,6 +39,9 @@ func run() error {
 	flags.StringVar(&cfg.PublicBaseURL, "public-base-url", cfg.PublicBaseURL, "public base URL for share and ICS links")
 	flags.DurationVar(&cfg.RefreshInterval, "refresh-interval", cfg.RefreshInterval, "background ETL refresh interval")
 	flags.BoolVar(&cfg.BootstrapETL, "bootstrap-etl", cfg.BootstrapETL, "run ETL before serving when database is empty")
+	staticDir := flags.String("out", "docs", "static export output directory")
+	staticFrom := flags.String("from", "2026-01-01", "static export start date")
+	staticTo := flags.String("to", "2026-12-31", "static export end date")
 	if len(os.Args) > 1 {
 		if err := flags.Parse(os.Args[2:]); err != nil {
 			return err
@@ -55,8 +58,10 @@ func run() error {
 		return serve(ctx, cfg)
 	case "etl":
 		return runETL(ctx, cfg)
+	case "export-static":
+		return exportStatic(ctx, cfg, *staticDir, *staticFrom, *staticTo)
 	case "help", "-h", "--help":
-		fmt.Println("usage: gunoiarad [serve|etl] [flags]")
+		fmt.Println("usage: gunoiarad [serve|etl|export-static] [flags]")
 		flags.PrintDefaults()
 		return nil
 	default:
