@@ -835,13 +835,8 @@ a.event-chip:hover,
 
 .map-frame {
   overflow: hidden;
-}
-
-.map-frame iframe {
-  width: 100%;
-  min-height: 620px;
-  display: block;
-  border: 0;
+  height: 600px;
+  z-index: 1;
 }
 
 .map-panel {
@@ -1021,3 +1016,5 @@ a.event-chip:hover,
     box-shadow: none;
   }
 }
+.map-pin-btn { background: #e0e0e0; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
+.map-pin-btn:hover { background: #d0d0d0; }

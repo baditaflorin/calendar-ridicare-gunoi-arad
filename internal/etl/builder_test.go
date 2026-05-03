@@ -17,7 +17,7 @@ func TestCleanCartier(t *testing.T) {
 		{"Micălaca – Zona 100-200", "Micalaca"},
 		{"Micălaca – Zona 300", "Micalaca"},
 		{"Micălaca – Zona 500-700", "Micalaca"},
-		
+
 		// Gradiste variations
 		{"Gradiste", "Gradiste"},
 		{"Gradiste Dreapta", "Gradiste"},

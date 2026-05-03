@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Experiment harta - Gunoi Arad</title>
+  <title>Harta - Gunoi Arad</title>
   <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script defer src="../static/map.js"></script>
   <script>window.GUNOI_STATIC = true;</script>
 </head>
@@ -25,13 +27,11 @@
   <main class="map-page">
     <section class="map-copy">
       <a class="back-link" href="../">Inapoi la program</a>
-      <h1>Experiment harta</h1>
-      <p>O vedere rapida peste Arad si un catalog cautabil pe cartiere. Nu folosim inca geocodare server-side, deci harta este orientativa.</p>
+      <h1>Harta interactiva</h1>
+      <p>Cauta strada ta din Arad si vezi programul. Harta foloseste geocodare automata de la OpenStreetMap pentru a gasi strada.</p>
     </section>
     <section class="map-layout">
-      <div class="map-frame">
-        <iframe title="Harta Arad pe OpenStreetMap" src="https://www.openstreetmap.org/export/embed.html?bbox=21.213%2C46.119%2C21.420%2C46.252&amp;layer=mapnik"></iframe>
-      </div>
+      <div class="map-frame" id="map"></div>
       <aside class="map-panel">
         <label for="map-neighborhood">Cartier</label>
         <select id="map-neighborhood">
