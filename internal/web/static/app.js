@@ -36,14 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const placeId = params.get("place_id");
   bindSearch();
   bindButtons();
-  renderEmptyWeek();
   loadNeighborhoods();
   if (placeId) {
     loadPlace(placeId);
-  } else {
-    const input = document.querySelector("#street-search");
-    input.value = "Densuseanu";
-    search(input.value, true);
   }
 });
 
@@ -137,6 +132,13 @@ function loadEventsForCurrentWindow() {
 
 function renderAll() {
   const place = state.place;
+  // Reveal the program section
+  const programSection = document.querySelector("#program");
+  programSection.hidden = false;
+  programSection.style.animation = "fadeSlideIn 0.5s ease-out";
+  // Shrink the hero
+  document.querySelector("#hero").classList.add("hero-compact");
+
   document.querySelector("#place-title").textContent = `Programul pentru Strada ${place.street_raw}, Arad`;
   document.querySelector("#place-subtitle").textContent = place.cartier ? `Cartier ${place.cartier}` : "Municipiul Arad";
   document.querySelector("#freshness").textContent = "actualizat";
@@ -157,11 +159,11 @@ function renderAll() {
     document.querySelector("#official-link").href = official.source_url;
   }
   renderNext();
-  renderWeek();
   renderLegend();
   renderCalendar();
-  renderUpcoming();
   renderSources();
+  // Scroll to the program section smoothly
+  programSection.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function renderNext() {

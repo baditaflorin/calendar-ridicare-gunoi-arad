@@ -22,7 +22,7 @@
   </header>
 
   <main class="shell">
-    <section class="hero-band">
+    <section class="hero-band hero-centered" id="hero">
       <div class="hero-copy">
         <h1>Știi când se ridică gunoiul pe strada ta?</h1>
         <p>Găsește adresa și descarcă propriul calendar de colectare pentru Arad.</p>
@@ -41,17 +41,9 @@
         </div>
         <div id="search-results" class="search-results" hidden></div>
       </div>
-      <div class="week-card" aria-live="polite">
-        <div class="week-card-head">
-          <span>Saptamana aceasta</span>
-          <div class="ghost-buttons" aria-hidden="true"><span>‹</span><span>›</span></div>
-        </div>
-        <div id="week-strip" class="week-strip"></div>
-        <div id="week-legend" class="mini-legend"></div>
-      </div>
     </section>
 
-    <section id="program" class="program-layout">
+    <section id="program" class="program-layout" hidden>
       <div class="main-column">
         <div class="result-head">
           <div>
@@ -85,10 +77,6 @@
       </div>
 
       <aside class="side-column">
-        <section class="upcoming-panel">
-          <h3>Urmatoarele ridicari</h3>
-          <div id="upcoming-list" class="upcoming-list"></div>
-        </section>
         <section id="surse" class="source-panel">
           <h3>Surse</h3>
           <p id="source-copy">Calendar generat automat din snapshot-uri RETIM.</p>

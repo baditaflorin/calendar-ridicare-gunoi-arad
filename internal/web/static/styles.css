@@ -124,12 +124,18 @@ input {
 
 .hero-band {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.75fr);
-  gap: 44px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  min-height: 500px;
+  justify-content: center;
+  min-height: 80vh;
   padding: 62px 0 42px;
+  transition: min-height 0.5s ease-out, padding 0.5s ease-out;
+}
+
+.hero-band.hero-compact {
+  min-height: 0;
+  padding: 40px 0 30px;
 }
 
 .hero-band::before {
@@ -141,6 +147,24 @@ input {
   opacity: 0.42;
   pointer-events: none;
   z-index: 0;
+}
+
+.hero-centered .hero-copy {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-copy {
@@ -401,7 +425,7 @@ input {
 
 .program-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 460px;
+  grid-template-columns: minmax(0, 1fr) 380px;
   gap: 36px;
   padding-bottom: 70px;
 }
