@@ -1,6 +1,9 @@
-# Gunoi Arad
+# Reciclare Arad
 
-Calendar simplu, cautabil si printabil pentru programul de ridicare a deseurilor din Municipiul Arad.
+**Live: [baditaflorin.github.io/calendar-ridicare-gunoi-arad/](https://baditaflorin.github.io/calendar-ridicare-gunoi-arad/)**
+
+Calendar simplu, căutabil și printabil pentru programul de ridicare a deșeurilor din Municipiul Arad.
+
 
 MVP-ul descarca sursele publice RETIM, pastreaza snapshot-uri brute cu hash, parseaza tabelele oficiale in SQLite si serveste:
 
