@@ -78,22 +78,34 @@ function bindButtons() {
     }
   });
   
-  // Modal toggle
+  // Modal toggle — teleport to body to guarantee position:fixed works
   const orderLink = document.querySelector("#order-link");
   const modal = document.querySelector("#order-modal");
   const closeBtn = document.querySelector("#close-modal");
-  
+
+  if (modal) {
+    // Move modal to direct child of <body> so no ancestor can create a new stacking context
+    document.body.appendChild(modal);
+  }
+
   if (orderLink && modal) {
     orderLink.addEventListener("click", (e) => {
       e.preventDefault();
       if (!state.place) return;
       document.querySelector("#order-street").value = state.place.street_raw;
       modal.hidden = false;
+      document.body.style.overflow = "hidden";
       updateOrderPrice();
     });
-    
-    closeBtn.addEventListener("click", () => { modal.hidden = true; });
-    modal.addEventListener("click", (e) => { if (e.target === modal) modal.hidden = true; });
+
+    const closeModal = () => {
+      modal.hidden = true;
+      document.body.style.overflow = "";
+    };
+
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) closeModal(); });
     
     // Price updates
     const quantityInput = document.querySelector("#order-quantity");
