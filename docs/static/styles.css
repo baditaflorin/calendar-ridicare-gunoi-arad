@@ -1202,6 +1202,8 @@ a.event-chip:hover,
   background: #fff;
   width: 100%;
   max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
   border-radius: 20px;
   padding: 40px;
   position: relative;
