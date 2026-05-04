@@ -116,8 +116,13 @@ function bindButtons() {
         });
         
         if (response.ok) {
-          // Success! Redirect to PayPal
-          window.location.href = "https://www.paypal.com/paypalme/florinbadita/4";
+          // Success! Redirect to selected payment method
+          const method = formData.get("payment_method");
+          if (method === "revolut") {
+            window.location.href = "https://revolut.me/badita6qb?currency=RON&amount=1600";
+          } else {
+            window.location.href = "https://www.paypal.com/paypalme/florinbadita/4";
+          }
         } else {
           const data = await response.json();
           alert("Eroare: " + (data.errors ? data.errors.map(e => e.message).join(", ") : "Te rugăm să încerci din nou."));

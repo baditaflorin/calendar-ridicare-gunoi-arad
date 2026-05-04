@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Reciclare Arad</title>
-  <link rel="stylesheet" href="./static/styles.css?v=1777855954">
-  <script defer src="./static/app.js?v=1777855954"></script>
+  <link rel="stylesheet" href="./static/styles.css?v=1777856398">
+  <script defer src="./static/app.js?v=1777856398"></script>
   <link rel="icon" type="image/svg+xml" href="./static/favicon.svg">
   <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
   <script>window.GUNOI_STATIC = true;</script>
@@ -132,14 +132,31 @@
           <input type="text" id="order-street" name="street" required placeholder="Numele străzii tale">
         </div>
         
+        <div class="order-details-box" style="background: #f8fafc; padding: 12px; border-radius: 10px; font-size: 13px; color: #475569; border: 1px dashed var(--line);">
+          <p style="margin: 0;">📦 <strong>Detalii:</strong> Print pe hârtie cartonată (premium), ridicare în 48h din centru (zona Piața Catedralei).</p>
+        </div>
+
+        <div class="payment-selection" style="display: flex; flex-direction: column; gap: 10px;">
+          <p style="margin: 0; font-size: 14px; font-weight: 750;">Alege metoda de plată:</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <label class="payment-radio">
+              <input type="radio" name="payment_method" value="paypal" checked>
+              <span>PayPal</span>
+            </label>
+            <label class="payment-radio">
+              <input type="radio" name="payment_method" value="revolut">
+              <span>Revolut</span>
+            </label>
+          </div>
+        </div>
+        
         <div class="modal-footer">
           <p class="price-tag">Total: <strong>16 RON</strong></p>
           <button type="submit" class="button primary" id="submit-order">
             <span class="btn-text">Trimite și Plătește</span>
-            <span class="btn-spinner" hidden></span>
           </button>
         </div>
-        <p class="modal-note">După trimitere, vei fi redirecționat către PayPal pentru plată.</p>
+        <p class="modal-note">Vei fi redirecționat către platforma de plată aleasă.</p>
       </form>
     </div>
   </div>
