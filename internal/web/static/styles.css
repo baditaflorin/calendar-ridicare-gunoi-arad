@@ -1225,7 +1225,7 @@ a.event-chip:hover,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8mm;
+  margin-bottom: 4mm;
   padding-top: 4mm;
 }
 
@@ -1248,7 +1248,7 @@ a.event-chip:hover,
 }
 
 .print-meta {
-  margin-bottom: 6mm;
+  margin-bottom: 3mm;
 }
 
 .print-meta h1 {
@@ -1295,11 +1295,11 @@ a.event-chip:hover,
 
 .print-day {
   background: #fff;
-  padding: 6px;
-  min-height: 20mm;
+  padding: 4px;
+  min-height: 15mm;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .print-day.muted {
@@ -1359,8 +1359,8 @@ a.event-chip:hover,
 .print-bottom-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 20px;
-  margin-top: 6mm;
+  gap: 12px;
+  margin-top: 3mm;
   align-items: end;
 }
 
@@ -1425,14 +1425,14 @@ a.event-chip:hover,
 }
 
 .mission-banner {
-  margin-top: 6mm;
+  margin-top: 3mm;
   background: #eff6ff;
   border: 1.5px solid #bfdbfe;
-  padding: 12px 20px;
+  padding: 8px 16px;
   border-radius: 12px;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .mission-icon {

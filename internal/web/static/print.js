@@ -122,8 +122,8 @@ function renderPrint(place, events, month) {
 
     <footer class="print-footer cute-footer">
       <div class="footer-left">
-        <p>Creat cu ❤️ pentru copiii din Arad.</p>
-        <p>baditaflorin.github.io/calendar-ridicare-gunoi-arad/</p>
+        <p><strong>Dezvoltat pro-bono de Florin Badita</strong> (baditaflorin@gmail.com) &bull; paypal.me/florinbadita</p>
+        <p>Reciclare <strong>Arad</strong> &mdash; Calendar independent pentru uz civic. baditaflorin.github.io/calendar-ridicare-gunoi-arad/</p>
       </div>
       <div class="footer-right">
         <p>Date RETIM & Primăria Arad</p>
