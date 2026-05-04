@@ -122,13 +122,6 @@ function renderPrint(place, events, month) {
         <div class="footer-credit-main">🌟 <strong>Florin Badita</strong> &nbsp;&bull;&nbsp; baditaflorin@gmail.com &nbsp;&bull;&nbsp; paypal.me/florinbadita</div>
         <div class="footer-credit-sub">baditaflorin.github.io/calendar-ridicare-gunoi-arad/ &mdash; Date: RETIM &amp; Primăria Arad</div>
       </div>
-      <div class="footer-legend">
-        <span>🌱 Bio</span>
-        <span>📰 Hârtie</span>
-        <span>🦴 Plastic</span>
-        <span>🗑️ Rezidual</span>
-        <span>🫙 Sticlă</span>
-      </div>
     </footer>
   `;
 }
