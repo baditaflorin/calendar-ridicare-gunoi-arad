@@ -1582,19 +1582,16 @@ a.event-chip:hover,
 
 /* Modal & Premium Form */
 .modal-overlay {
-  position: fixed !important;
-  inset: 0 !important;
+  position: fixed;
+  inset: 0;
   background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(6px);
-  z-index: 99999 !important;
-  display: flex !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-}
-
-.modal-overlay[hidden] {
-  display: none !important;
 }
 
 .modal-content {

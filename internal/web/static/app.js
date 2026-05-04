@@ -78,28 +78,26 @@ function bindButtons() {
     }
   });
   
-  // Modal toggle — teleport to body to guarantee position:fixed works
+  // Modal toggle — append/remove from DOM for guaranteed position:fixed
   const orderLink = document.querySelector("#order-link");
-  const modal = document.querySelector("#order-modal");
-  const closeBtn = document.querySelector("#close-modal");
+  const modalTemplate = document.querySelector("#order-modal");
 
-  if (modal) {
-    // Move modal to direct child of <body> so no ancestor stacking context breaks position:fixed
-    document.body.appendChild(modal);
-  }
+  if (orderLink && modalTemplate) {
+    // Detach the modal from its current DOM position
+    modalTemplate.removeAttribute("hidden");
+    modalTemplate.remove();
 
-  if (orderLink && modal) {
-    // Price calculation — defined first so the click handler can call it safely
-    const quantityInput = document.querySelector("#order-quantity");
-    const deliveryRadios = document.querySelectorAll('input[name="delivery_method"]');
+    // Price calculation
+    const quantityInput = modalTemplate.querySelector("#order-quantity");
+    const deliveryRadios = modalTemplate.querySelectorAll('input[name="delivery_method"]');
 
     const updateOrderPrice = () => {
       const q = parseInt(quantityInput.value) || 1;
-      const delivery = document.querySelector('input[name="delivery_method"]:checked').value;
+      const delivery = modalTemplate.querySelector('input[name="delivery_method"]:checked').value;
       const transport = delivery === 'courier' ? 20 : 0;
       const total = (16 * q) + transport;
-      document.querySelector("#order-total-display").textContent = `${total} RON`;
-      document.querySelector("#delivery-address-group").hidden = (delivery !== 'courier');
+      modalTemplate.querySelector("#order-total-display").textContent = `${total} RON`;
+      modalTemplate.querySelector("#delivery-address-group").hidden = (delivery !== 'courier');
       return total;
     };
 
@@ -107,22 +105,22 @@ function bindButtons() {
     deliveryRadios.forEach(r => r.addEventListener("change", updateOrderPrice));
 
     const closeModal = () => {
-      modal.hidden = true;
+      modalTemplate.remove();
       document.body.style.overflow = "";
     };
+
+    modalTemplate.querySelector("#close-modal").addEventListener("click", closeModal);
+    modalTemplate.addEventListener("click", (e) => { if (e.target === modalTemplate) closeModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.contains(modalTemplate)) closeModal(); });
 
     orderLink.addEventListener("click", (e) => {
       e.preventDefault();
       if (!state.place) return;
-      document.querySelector("#order-street").value = state.place.street_raw;
-      modal.hidden = false;
+      modalTemplate.querySelector("#order-street").value = state.place.street_raw;
+      document.body.appendChild(modalTemplate);
       document.body.style.overflow = "hidden";
       updateOrderPrice();
     });
-
-    closeBtn.addEventListener("click", closeModal);
-    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) closeModal(); });
   }
 
   // Form submission
