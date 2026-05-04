@@ -44,14 +44,14 @@ function renderPrint(place, events, month) {
     <div class="print-legend">
       ${legend(events).map((event) => `<span><i style="background: ${event.color}"></i>${escapeHTML(event.label)}</span>`).join("")}
     </div>
-    <footer class="print-footer" style="margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-end; font-size: 11px; color: #64748b;">
-      <div>
-        <p style="margin: 0;">Dezvoltat pro-bono de <strong>Florin Badita</strong> (baditaflorin@gmail.com)</p>
-        <p style="margin: 0;">Sustine proiectul: <strong>paypal.me/florinbadita</strong></p>
+    <footer class="print-footer" style="margin-top: auto; padding-top: 18px; border-top: 2px solid #203150; display: flex; justify-content: space-between; align-items: flex-end; font-size: 14px; color: #203150;">
+      <div style="flex: 1;">
+        <p style="margin: 0 0 4px; font-weight: 800;">Dezvoltat pro-bono de <strong>Florin Badita</strong> (baditaflorin@gmail.com)</p>
+        <p style="margin: 0;">Susține proiectul: <strong>paypal.me/florinbadita</strong></p>
       </div>
-      <div style="text-align: right;">
-        <p style="margin: 0;"><strong>Reciclare Arad</strong> &mdash; Calendar independent pentru uz civic.</p>
-        <p style="margin: 0;">baditaflorin.github.io/calendar-ridicare-gunoi-arad/</p>
+      <div style="text-align: right; flex: 1;">
+        <p style="margin: 0 0 4px; font-weight: 800;">Reciclare <strong>Arad</strong> &mdash; Calendar independent pentru uz civic.</p>
+        <p style="margin: 0; color: #64748b;">baditaflorin.github.io/calendar-ridicare-gunoi-arad/</p>
       </div>
       <img src="https://telemetry.0init.com/telemetry/clnzoxcy10001vy2ohi4obbi0/cmoqcjj8205yzby3l4b0p8ccc.gif" alt="" style="position: absolute; visibility: hidden;" />
     </footer>
