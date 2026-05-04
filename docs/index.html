@@ -16,7 +16,15 @@
 <body>
   <header class="topbar">
     <a class="brand" href="./" aria-label="Reciclare Arad">
-      <span class="brand-mark" aria-hidden="true"></span>
+      <svg class="brand-logo" width="36" height="36" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="40" cy="40" r="40" fill="#d1fae5"/>
+        <ellipse cx="22" cy="44" rx="12" ry="7" fill="#34d399" transform="rotate(-30 22 44)"/>
+        <ellipse cx="58" cy="44" rx="12" ry="7" fill="#10b981" transform="rotate(30 58 44)"/>
+        <rect x="37" y="26" width="6" height="24" rx="3" fill="#059669"/>
+        <path d="M28 55 Q40 65 52 55" stroke="#059669" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="32" cy="46" r="3" fill="#059669"/>
+        <circle cx="48" cy="46" r="3" fill="#059669"/>
+      </svg>
       <span>Reciclare <strong>Arad</strong></span>
     </a>
     <nav class="topnav" aria-label="Navigare">
@@ -90,13 +98,15 @@
     <footer class="site-footer">
       <p>Date publice RETIM si Primaria Arad. Interfata civica independenta, construita ca informatia sa fie cautabila, verificabila si printabila.</p>
       <p><a href="./manifesto/">Citeste manifestul</a> · <a href="./analize/">Analiza statistica</a> · <a href="./ghid/">Ghid de colectare</a> · <a href="https://retim.ro/utile-arad/zona-1/" target="_blank" rel="noreferrer">RETIM Arad</a></p>
-      <div class="developer-credit" style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 14px; color: #64748b; display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
-        <span>Dezvoltat pro-bono de <a href="https://www.linkedin.com/in/baditaflorin/" target="_blank" rel="noreferrer">Florin Badita</a>.</span>
-        <span class="quiet">|</span>
-        <a href="https://paypal.me/florinbadita/" target="_blank" rel="noreferrer">Sustine proiectul (PayPal)</a>
-        <span class="quiet">|</span>
-        <a href="https://github.com/baditaflorin/calendar-ridicare-gunoi-arad" target="_blank" rel="noreferrer">Contribuie pe GitHub</a>
-        <span class="quiet" style="margin-left: auto;">v1.1.0</span>
+      <div class="developer-credit">
+        <div class="dev-credit-left">
+          <span>Dezvoltat pro-bono de <a href="https://www.linkedin.com/in/baditaflorin/" target="_blank" rel="noreferrer">Florin Badita</a>.</span>
+        </div>
+        <div class="dev-credit-actions">
+          <a href="https://paypal.me/florinbadita/" target="_blank" rel="noreferrer" class="dev-action-btn dev-action-btn--support">💚 Susține proiectul</a>
+          <a href="https://github.com/baditaflorin/calendar-ridicare-gunoi-arad" target="_blank" rel="noreferrer" class="dev-action-btn">⭐ GitHub</a>
+          <span class="dev-version">v1.1.0</span>
+        </div>
       </div>
       <img src="https://telemetry.0init.com/telemetry/clnzoxcy10001vy2ohi4obbi0/cmoqcjj8205yzby3l4b0p8ccc.gif" alt="" style="position: absolute; visibility: hidden;" />
     </footer>
