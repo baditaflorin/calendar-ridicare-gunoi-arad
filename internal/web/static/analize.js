@@ -172,46 +172,56 @@ function renderWeeklyHeatmap(stats) {
   const ctx = document.getElementById("chart-weekly").getContext("2d");
   const breakdown = stats.daily_breakdown || {};
   
-  // Get next 14 days
   const days = [];
-  const counts = [];
+  const isoDays = [];
   const now = new Date();
   for (let i = 0; i < 14; i++) {
     const d = new Date(now);
     d.setDate(d.getDate() + i);
     const iso = d.toISOString().slice(0, 10);
-    const dayData = breakdown[iso] || {};
-    const total = Object.values(dayData).reduce((s, v) => s + v, 0);
+    isoDays.push(iso);
     const shortDay = d.toLocaleDateString("ro", { weekday: "short", day: "numeric" });
     days.push(shortDay);
-    counts.push(total);
   }
+
+  // Identify all waste types across these 14 days
+  const activeTypes = new Set();
+  isoDays.forEach(iso => {
+    Object.keys(breakdown[iso] || {}).forEach(type => activeTypes.add(type));
+  });
+
+  const datasets = Array.from(activeTypes).map(type => ({
+    label: wasteLabels[type] || type,
+    data: isoDays.map(iso => (breakdown[iso] || {})[type] || 0),
+    backgroundColor: wasteColors[type] || "#94a3b8",
+    borderRadius: 4
+  }));
 
   new Chart(ctx, {
     type: "bar",
     data: {
       labels: days,
-      datasets: [{
-        label: "Ridicări programate",
-        data: counts,
-        backgroundColor: counts.map((c, i) => i === 0 ? "#2563eb" : "#93c5fd"),
-        borderRadius: 4,
-        borderSkipped: false
-      }]
+      datasets: datasets
     },
     options: {
       responsive: true,
       plugins: {
-        legend: { display: false },
+        legend: { position: "bottom" },
         tooltip: {
-          callbacks: {
-            label: ctx => `${ctx.raw} ridicări`
-          }
+          mode: "index",
+          intersect: false
         }
       },
       scales: {
-        x: { grid: { display: false } },
-        y: { beginAtZero: true, grid: { color: "#f1f5f9" } }
+        x: { 
+          stacked: true,
+          grid: { display: false } 
+        },
+        y: { 
+          stacked: true,
+          beginAtZero: true, 
+          grid: { color: "#f1f5f9" } 
+        }
       }
     }
   });
