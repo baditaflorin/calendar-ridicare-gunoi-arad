@@ -1,5 +1,5 @@
 const printMonthNames = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
-const printWeekdays = ["Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata", "Duminica"];
+const printWeekdays = ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminică"];
 const printSiteRoot = new URL("../", document.currentScript.src);
 const printDataRoot = new URL("data/", printSiteRoot);
 
@@ -18,42 +18,116 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderPrint(payload.place, events, month);
 });
 
+const mascots = {
+  residual: "🛰️",
+  bio: "🍀",
+  paper: "📘",
+  plastic_metal: "⚡",
+  glass: "✨",
+  bulky: "🦖",
+  textile: "👕",
+  hazardous: "⚠️"
+};
+
+const mascotNames = {
+  residual: "Shadow",
+  bio: "Leafy",
+  paper: "Bluey",
+  plastic_metal: "Sparky",
+  glass: "Glaze",
+  bulky: "Rex",
+  textile: "Cotton",
+  hazardous: "Danger"
+};
+
 function renderPrint(place, events, month) {
   const days = buildMonthGrid(month, events);
   const sources = unique(events.map((event) => event.source_url).filter(Boolean));
   const updated = events.find((event) => event.fetched_at)?.fetched_at;
+  
   document.querySelector("#print-paper").innerHTML = `
+    <div class="sky-accent"></div>
     <header class="paper-head">
       <div class="brand print-brand">
         <span class="brand-mark" aria-hidden="true"></span>
         <span>Reciclare <strong>Arad</strong></span>
       </div>
-      <span>Programul tau. Orasul nostru.</span>
+      <div class="header-motto">
+        <span>Aventura Reciclării</span>
+        <span class="motto-sub">Împreună salvăm planeta! 🌍</span>
+      </div>
     </header>
-    <h1 style="letter-spacing: -0.5px; word-spacing: 2px;">Calendar de colectare &mdash; Strada ${escapeHTML(place.street_raw)}, ${escapeHTML(place.cartier || "Arad")}</h1>
-    <h2 style="margin-bottom: 18px;">${printMonthNames[month.getMonth()]} ${month.getFullYear()}</h2>
+
+    <div class="print-meta">
+      <h1>Strada ${escapeHTML(place.street_raw)} &bull; <span>${escapeHTML(place.cartier || "Arad")}</span></h1>
+      <h2 class="cute-month">${printMonthNames[month.getMonth()]} ${month.getFullYear()}</h2>
+    </div>
+
     <div class="print-calendar">
       ${printWeekdays.map((day) => `<div class="print-weekday">${day}</div>`).join("")}
       ${days.map((day) => `
         <div class="print-day ${day.inMonth ? "" : "muted"}">
-          <span>${day.date.getDate()}</span>
-          ${day.events.map((event) => `<div class="print-event"><i style="background: ${event.color}"></i>${escapeHTML(event.label)}${event.confidence < 1 ? " *" : ""}</div>`).join("")}
+          <span class="day-num">${day.date.getDate()}</span>
+          <div class="day-events">
+            ${day.events.map((event) => `
+              <div class="print-event cute-event" style="border-left: 4px solid ${event.color}">
+                <span class="event-mascot">${mascots[event.waste_type] || "♻️"}</span>
+                <div class="event-info">
+                  <span class="event-label">${escapeHTML(event.label)}</span>
+                  <span class="event-check">⭐ Am ajutat!</span>
+                </div>
+              </div>
+            `).join("")}
+          </div>
         </div>
       `).join("")}
     </div>
-    <div class="print-legend">
-      ${legend(events).map((event) => `<span><i style="background: ${event.color}"></i>${escapeHTML(event.label)}</span>`).join("")}
+
+    <div class="print-bottom-row">
+      <div class="print-legend-cute">
+        <h3>Echipa Reciclării</h3>
+        <div class="legend-items">
+          ${legend(events).map((event) => `
+            <div class="legend-item">
+              <span class="l-mascot">${mascots[event.waste_type] || "♻️"}</span>
+              <div class="l-text">
+                <span class="l-name">${mascotNames[event.waste_type] || "Erou"}</span>
+                <span class="l-label">${escapeHTML(event.label)}</span>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="color-me-box">
+        <div class="color-me-art">
+          <svg viewBox="0 0 100 100" width="80" height="80">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#e2e8f0" stroke-width="2" />
+            <path d="M30 40 Q50 20 70 40" fill="none" stroke="#cbd5e1" stroke-width="2" />
+            <circle cx="40" cy="45" r="3" fill="#cbd5e1" />
+            <circle cx="60" cy="45" r="3" fill="#cbd5e1" />
+            <path d="M40 65 Q50 75 60 65" fill="none" stroke="#cbd5e1" stroke-width="2" />
+          </svg>
+        </div>
+        <p>Colorează-mă!</p>
+      </div>
     </div>
-    <footer class="print-footer" style="margin-top: auto; padding-top: 18px; border-top: 2px solid #203150; display: flex; justify-content: space-between; align-items: flex-end; font-size: 14px; color: #203150;">
-      <div style="flex: 1;">
-        <p style="margin: 0 0 4px; font-weight: 800;">Dezvoltat pro-bono de <strong>Florin Badita</strong> (baditaflorin@gmail.com)</p>
-        <p style="margin: 0;">Susține proiectul: <strong>paypal.me/florinbadita</strong></p>
+
+    <div class="mission-banner">
+      <span class="mission-icon">🏆</span>
+      <div class="mission-text">
+        <strong>Misiunea Lunii:</strong> Colectează separat și bifează toate stelele de mai sus pentru a deveni un Erou Verde!
       </div>
-      <div style="text-align: right; flex: 1;">
-        <p style="margin: 0 0 4px; font-weight: 800;">Reciclare <strong>Arad</strong> &mdash; Calendar independent pentru uz civic.</p>
-        <p style="margin: 0; color: #64748b;">baditaflorin.github.io/calendar-ridicare-gunoi-arad/</p>
+    </div>
+
+    <footer class="print-footer cute-footer">
+      <div class="footer-left">
+        <p>Creat cu ❤️ pentru copiii din Arad.</p>
+        <p>baditaflorin.github.io/calendar-ridicare-gunoi-arad/</p>
       </div>
-      <img src="https://telemetry.0init.com/telemetry/clnzoxcy10001vy2ohi4obbi0/cmoqcjj8205yzby3l4b0p8ccc.gif" alt="" style="position: absolute; visibility: hidden;" />
+      <div class="footer-right">
+        <p>Date RETIM & Primăria Arad</p>
+      </div>
     </footer>
   `;
 }
@@ -68,28 +142,28 @@ function decorateEvent(event) {
 
 function wasteLabel(type) {
   return {
-    residual: "Rezidual",
-    bio: "Bio",
-    paper: "Hartie & Carton",
-    plastic_metal: "Plastic & Metal",
-    glass: "Sticla",
-    bulky: "Voluminoase",
-    textile: "Textile",
-    hazardous: "Periculoase",
+    residual: "Rezidual (Shadow)",
+    bio: "Bio (Leafy)",
+    paper: "Hârtie (Bluey)",
+    plastic_metal: "Plastic (Sparky)",
+    glass: "Sticlă (Glaze)",
+    bulky: "Voluminoase (Rex)",
+    textile: "Textile (Cotton)",
+    hazardous: "Periculoase (Danger)",
   }[type] || type;
 }
 
 function wasteColor(type) {
   return {
-    residual: "#374151",
-    bio: "#16a34a",
-    paper: "#2563eb",
-    plastic_metal: "#eab308",
-    glass: "#16a34a",
-    bulky: "#7c3aed",
-    textile: "#db2777",
-    hazardous: "#dc2626",
-  }[type] || "#64748b";
+    residual: "#475569", // Darker slate
+    bio: "#10b981",     // Emerald
+    paper: "#3b82f6",     // Blue
+    plastic_metal: "#f59e0b", // Amber
+    glass: "#059669",    // Green
+    bulky: "#8b5cf6",    // Violet
+    textile: "#ec4899",   // Pink
+    hazardous: "#ef4444",  // Red
+  }[type] || "#94a3b8";
 }
 
 function buildMonthGrid(month, events) {
