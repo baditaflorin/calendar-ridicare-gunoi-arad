@@ -1242,6 +1242,7 @@ a.event-chip:hover,
     width: 120px;
     margin: 0 auto;
   }
+}
 
 .calendar-grid {
   display: grid;

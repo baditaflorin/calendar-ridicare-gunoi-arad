@@ -82,35 +82,46 @@ function bindButtons() {
   const orderLink = document.querySelector("#order-link");
   const modal = document.querySelector("#order-modal");
   const closeBtn = document.querySelector("#close-modal");
-  
+
+  function updateOrderPrice() {
+    const quantityInput = document.querySelector("#order-quantity");
+    const deliveryRadios = document.querySelectorAll('input[name="delivery_method"]');
+    if (!quantityInput || !deliveryRadios.length) return;
+
+    const q = parseInt(quantityInput.value) || 1;
+    const checkedDelivery = document.querySelector('input[name="delivery_method"]:checked');
+    const delivery = checkedDelivery ? checkedDelivery.value : 'pickup';
+    const transport = delivery === 'courier' ? 20 : 0;
+    const total = (16 * q) + transport;
+    
+    const displayEl = document.querySelector("#order-total-display");
+    if (displayEl) displayEl.textContent = `${total} RON`;
+    
+    const addrGroup = document.querySelector("#delivery-address-group");
+    if (addrGroup) addrGroup.hidden = (delivery !== 'courier');
+    return total;
+  }
+
   if (orderLink && modal) {
     orderLink.addEventListener("click", (e) => {
       e.preventDefault();
       if (!state.place) return;
-      document.querySelector("#order-street").value = state.place.street_raw;
+      const streetInput = document.querySelector("#order-street");
+      if (streetInput) streetInput.value = state.place.street_raw;
       modal.hidden = false;
       updateOrderPrice();
     });
-    
-    closeBtn.addEventListener("click", () => { modal.hidden = true; });
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", () => { modal.hidden = true; });
+    }
     modal.addEventListener("click", (e) => { if (e.target === modal) modal.hidden = true; });
+
+    const qInput = document.querySelector("#order-quantity");
+    if (qInput) qInput.addEventListener("input", updateOrderPrice);
     
-    // Price updates
-    const quantityInput = document.querySelector("#order-quantity");
-    const deliveryRadios = document.querySelectorAll('input[name="delivery_method"]');
-    
-    const updateOrderPrice = () => {
-      const q = parseInt(quantityInput.value) || 1;
-      const delivery = document.querySelector('input[name="delivery_method"]:checked').value;
-      const transport = delivery === 'courier' ? 20 : 0;
-      const total = (16 * q) + transport;
-      document.querySelector("#order-total-display").textContent = `${total} RON`;
-      document.querySelector("#delivery-address-group").hidden = (delivery !== 'courier');
-      return total;
-    };
-    
-    quantityInput.addEventListener("input", updateOrderPrice);
-    deliveryRadios.forEach(r => r.addEventListener("change", updateOrderPrice));
+    const dRadios = document.querySelectorAll('input[name="delivery_method"]');
+    dRadios.forEach(r => r.addEventListener("change", updateOrderPrice));
   }
 
   // Form submission
