@@ -74,8 +74,8 @@ function renderPrint(place, events, month) {
                 <span class="event-mascot">${mascots[event.waste_type] || "♻️"}</span>
                 <div class="event-info">
                   <span class="event-label">${escapeHTML(event.label)}</span>
-                  <span class="event-check">⭐ Am ajutat!</span>
                 </div>
+                <div class="event-checkbox-square"></div>
               </div>
             `).join("")}
           </div>
