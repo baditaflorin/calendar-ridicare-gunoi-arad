@@ -10,6 +10,8 @@
   --shadow: 0 18px 50px rgba(18, 45, 92, 0.08);
   --pink: #ec4899;
   --purple: #8b5cf6;
+  --font-display: 'Comfortaa', cursive;
+  --font-main: 'Baloo 2', 'Quicksand', sans-serif;
 }
 
 * {
@@ -19,7 +21,7 @@
 body {
   margin: 0;
   color: var(--ink);
-  font-family: 'Quicksand', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-family: var(--font-main);
   background: var(--wash);
   letter-spacing: 0;
 }
@@ -192,7 +194,7 @@ input {
   margin: 0 0 20px;
   font-size: clamp(32px, 8vw, 76px);
   line-height: 1.05;
-  font-family: 'Fredoka', sans-serif;
+  font-family: var(--font-display);
   font-weight: 800;
 }
 
