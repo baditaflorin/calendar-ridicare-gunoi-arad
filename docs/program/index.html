@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Reciclare Arad</title>
-  <link rel="stylesheet" href="../static/styles.css?v=1777856398">
-  <script defer src="../static/app.js?v=1777856398"></script>
+  <link rel="stylesheet" href="../static/styles.css?v=1777856772">
+  <script defer src="../static/app.js?v=1777856772"></script>
   <link rel="icon" type="image/svg+xml" href="../static/favicon.svg">
   <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
   <script>window.GUNOI_STATIC = true;</script>
@@ -127,17 +127,48 @@
             <input type="tel" id="order-phone" name="phone" required placeholder="07xx xxx xxx">
           </div>
         </div>
-        <div class="form-group">
-          <label for="order-street">Strada pentru calendar</label>
-          <input type="text" id="order-street" name="street" required placeholder="Numele străzii tale">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="order-street">Strada pentru calendar</label>
+            <input type="text" id="order-street" name="street" required placeholder="Numele străzii tale">
+          </div>
+          <div class="form-group">
+            <label for="order-quantity">Număr exemplare</label>
+            <input type="number" id="order-quantity" name="quantity" value="1" min="1" max="10" required>
+          </div>
+        </div>
+        
+        <div class="delivery-selection" style="display: flex; flex-direction: column; gap: 10px;">
+          <p style="margin: 0; font-size: 14px; font-weight: 750;">Metodă livrare:</p>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label class="delivery-option">
+              <input type="radio" name="delivery_method" value="pickup" checked>
+              <div class="opt-text">
+                <strong>Ridicare personală (Gratuit)</strong>
+                <span>Zona Piața Catedralei, Arad</span>
+              </div>
+            </label>
+            <label class="delivery-option">
+              <input type="radio" name="delivery_method" value="courier">
+              <div class="opt-text">
+                <strong>Livrare prin Curier (+20 RON)</strong>
+                <span>Direct la ușa ta</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div id="delivery-address-group" class="form-group" hidden>
+          <label for="order-address">Adresa de livrare</label>
+          <input type="text" id="order-address" name="delivery_address" placeholder="Strada, Număr, Bloc, Scara, Apartament">
         </div>
         
         <div class="order-details-box" style="background: #f8fafc; padding: 12px; border-radius: 10px; font-size: 13px; color: #475569; border: 1px dashed var(--line);">
-          <p style="margin: 0;">📦 <strong>Detalii:</strong> Print pe hârtie cartonată (premium), ridicare în 48h din centru (zona Piața Catedralei).</p>
+          <p style="margin: 0;">📦 <strong>Print:</strong> Hârtie premium (250g+). Format curat (fără credite).</p>
         </div>
 
         <div class="payment-selection" style="display: flex; flex-direction: column; gap: 10px;">
-          <p style="margin: 0; font-size: 14px; font-weight: 750;">Alege metoda de plată:</p>
+          <p style="margin: 0; font-size: 14px; font-weight: 750;">Plată securizată via:</p>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <label class="payment-radio">
               <input type="radio" name="payment_method" value="paypal" checked>
@@ -151,9 +182,9 @@
         </div>
         
         <div class="modal-footer">
-          <p class="price-tag">Total: <strong>16 RON</strong></p>
+          <p class="price-tag">Total: <strong id="order-total-display">16 RON</strong></p>
           <button type="submit" class="button primary" id="submit-order">
-            <span class="btn-text">Trimite și Plătește</span>
+            <span class="btn-text">Comandă și Plătește</span>
           </button>
         </div>
         <p class="modal-note">Vei fi redirecționat către platforma de plată aleasă.</p>

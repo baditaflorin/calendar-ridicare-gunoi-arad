@@ -89,10 +89,28 @@ function bindButtons() {
       if (!state.place) return;
       document.querySelector("#order-street").value = state.place.street_raw;
       modal.hidden = false;
+      updateOrderPrice();
     });
     
     closeBtn.addEventListener("click", () => { modal.hidden = true; });
     modal.addEventListener("click", (e) => { if (e.target === modal) modal.hidden = true; });
+    
+    // Price updates
+    const quantityInput = document.querySelector("#order-quantity");
+    const deliveryRadios = document.querySelectorAll('input[name="delivery_method"]');
+    
+    const updateOrderPrice = () => {
+      const q = parseInt(quantityInput.value) || 1;
+      const delivery = document.querySelector('input[name="delivery_method"]:checked').value;
+      const transport = delivery === 'courier' ? 20 : 0;
+      const total = (16 * q) + transport;
+      document.querySelector("#order-total-display").textContent = `${total} RON`;
+      document.querySelector("#delivery-address-group").hidden = (delivery !== 'courier');
+      return total;
+    };
+    
+    quantityInput.addEventListener("input", updateOrderPrice);
+    deliveryRadios.forEach(r => r.addEventListener("change", updateOrderPrice));
   }
 
   // Form submission
@@ -102,7 +120,6 @@ function bindButtons() {
       e.preventDefault();
       const btn = document.querySelector("#submit-order");
       const btnText = btn.querySelector(".btn-text");
-      const btnSpinner = btn.querySelector(".btn-spinner");
       
       btn.disabled = true;
       btnText.textContent = "Se trimite...";
@@ -116,23 +133,28 @@ function bindButtons() {
         });
         
         if (response.ok) {
-          // Success! Redirect to selected payment method
+          const q = parseInt(formData.get("quantity")) || 1;
+          const delivery = formData.get("delivery_method");
+          const totalRON = (16 * q) + (delivery === 'courier' ? 20 : 0);
+          
           const method = formData.get("payment_method");
           if (method === "revolut") {
-            window.location.href = "https://revolut.me/badita6qb?currency=RON&amount=1600";
+            window.location.href = `https://revolut.me/badita6qb?currency=RON&amount=${totalRON * 100}`;
           } else {
-            window.location.href = "https://www.paypal.com/paypalme/florinbadita/4";
+            // Approx USD conversion (4 RON = 1 USD as per user feedback)
+            const totalUSD = Math.round(totalRON / 4);
+            window.location.href = `https://www.paypal.com/paypalme/florinbadita/${totalUSD}`;
           }
         } else {
           const data = await response.json();
           alert("Eroare: " + (data.errors ? data.errors.map(e => e.message).join(", ") : "Te rugăm să încerci din nou."));
           btn.disabled = false;
-          btnText.textContent = "Trimite și Plătește";
+          btnText.textContent = "Comandă și Plătește";
         }
       } catch (err) {
         alert("Eroare de conexiune. Te rugăm să verifici internetul.");
         btn.disabled = false;
-        btnText.textContent = "Trimite și Plătește";
+        btnText.textContent = "Comandă și Plătește";
       }
     });
   }
