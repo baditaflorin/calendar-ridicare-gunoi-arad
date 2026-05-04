@@ -252,10 +252,12 @@ window.downloadImage = async function() {
     const image = canvas.toDataURL("image/png", 1.0);
     const link = document.createElement("a");
     
-    // try to get street name for filename
-    const heading = paper.querySelector("h1")?.textContent || "";
-    const streetMatch = heading.match(/Strada (.*)/);
-    const filename = streetMatch ? `calendar-${streetMatch[1].replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png` : `calendar-gunoi-arad.png`;
+    // Build filename from the street shown in the print header
+    const streetEl = paper.querySelector(".print-street");
+    const streetText = streetEl ? streetEl.textContent.replace(/^📍\s*/, "").trim() : "";
+    const filename = streetText
+      ? `calendar-${streetText.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`
+      : `calendar-gunoi-arad.png`;
     
     link.download = filename;
     link.href = image;

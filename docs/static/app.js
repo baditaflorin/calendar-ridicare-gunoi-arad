@@ -84,33 +84,15 @@ function bindButtons() {
   const closeBtn = document.querySelector("#close-modal");
 
   if (modal) {
-    // Move modal to direct child of <body> so no ancestor can create a new stacking context
+    // Move modal to direct child of <body> so no ancestor stacking context breaks position:fixed
     document.body.appendChild(modal);
   }
 
   if (orderLink && modal) {
-    orderLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (!state.place) return;
-      document.querySelector("#order-street").value = state.place.street_raw;
-      modal.hidden = false;
-      document.body.style.overflow = "hidden";
-      updateOrderPrice();
-    });
-
-    const closeModal = () => {
-      modal.hidden = true;
-      document.body.style.overflow = "";
-    };
-
-    closeBtn.addEventListener("click", closeModal);
-    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) closeModal(); });
-    
-    // Price updates
+    // Price calculation — defined first so the click handler can call it safely
     const quantityInput = document.querySelector("#order-quantity");
     const deliveryRadios = document.querySelectorAll('input[name="delivery_method"]');
-    
+
     const updateOrderPrice = () => {
       const q = parseInt(quantityInput.value) || 1;
       const delivery = document.querySelector('input[name="delivery_method"]:checked').value;
@@ -120,9 +102,27 @@ function bindButtons() {
       document.querySelector("#delivery-address-group").hidden = (delivery !== 'courier');
       return total;
     };
-    
+
     quantityInput.addEventListener("input", updateOrderPrice);
     deliveryRadios.forEach(r => r.addEventListener("change", updateOrderPrice));
+
+    const closeModal = () => {
+      modal.hidden = true;
+      document.body.style.overflow = "";
+    };
+
+    orderLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!state.place) return;
+      document.querySelector("#order-street").value = state.place.street_raw;
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+      updateOrderPrice();
+    });
+
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) closeModal(); });
   }
 
   // Form submission
@@ -130,6 +130,13 @@ function bindButtons() {
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      // Build filename from the street shown in the print header
+      const streetEl = document.querySelector(".print-street");
+      const streetText = streetEl ? streetEl.textContent.replace(/^📍\s*/, "").trim() : "";
+      const filename = streetText
+        ? `calendar-${streetText.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`
+        : `calendar-gunoi-arad.png`;
+      
       const btn = document.querySelector("#submit-order");
       const btnText = btn.querySelector(".btn-text");
       
