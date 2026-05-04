@@ -1199,26 +1199,27 @@ a.event-chip:hover,
   }
 
 .paper {
-  background: #fff;
+  background: #fffef5;
   width: 297mm;
   height: 210mm;
   padding: 0;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 16px;
   box-sizing: border-box;
   font-family: 'Baloo 2', 'Comfortaa', sans-serif;
+  border: 3px solid #a7f3d0;
 }
 
-/* Green top stripe */
+/* Rainbow top stripe */
 .paper::before {
   content: '';
   display: block;
-  height: 7mm;
-  background: linear-gradient(90deg, #059669 0%, #10b981 40%, #34d399 100%);
+  height: 6mm;
+  background: linear-gradient(90deg,#f87171,#fb923c,#fbbf24,#34d399,#60a5fa,#a78bfa,#f472b6);
   flex-shrink: 0;
 }
 
@@ -1226,15 +1227,31 @@ a.event-chip:hover,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4mm 10mm 3mm;
-  border-bottom: 1px solid #d1fae5;
+  padding: 3mm 10mm 3mm;
+  background: linear-gradient(135deg, #ecfdf5 0%, #eff6ff 100%);
+  border-bottom: 2px dashed #a7f3d0;
   flex-shrink: 0;
+  position: relative;
+  overflow: visible;
+}
+
+/* Floating decorative emojis */
+.deco-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.deco-stars span {
+  position: absolute;
+  line-height: 1;
+  animation: none;
 }
 
 .print-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .brand-text {
@@ -1243,10 +1260,11 @@ a.event-chip:hover,
 }
 
 .brand-name {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 22px;
+  font-weight: 900;
   color: #0f172a;
   line-height: 1;
+  font-family: 'Comfortaa', cursive;
 }
 
 .brand-name strong {
@@ -1254,30 +1272,35 @@ a.event-chip:hover,
 }
 
 .brand-tagline {
-  font-size: 11px;
+  font-size: 12px;
   color: #10b981;
-  font-weight: 600;
+  font-weight: 700;
+  margin-top: 2px;
 }
 
 .print-address-block {
   text-align: right;
+  background: rgba(255,255,255,0.7);
+  padding: 6px 12px;
+  border-radius: 12px;
+  border: 1.5px solid #d1fae5;
 }
 
 .print-street {
-  font-size: 17px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 900;
   color: #0f172a;
 }
 
 .print-district {
-  font-size: 13px;
+  font-size: 12px;
   color: #64748b;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .print-month-label {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 900;
   color: #059669;
   font-family: 'Comfortaa', cursive;
 }
@@ -1285,48 +1308,49 @@ a.event-chip:hover,
 .print-calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
-  background: #d1fae5;
-  border-left: 1px solid #d1fae5;
-  border-right: 1px solid #d1fae5;
+  gap: 2px;
+  background: #e0f2fe;
   flex: 1;
   overflow: hidden;
+  padding: 2px;
 }
 
 .print-weekday {
-  background: #ecfdf5;
-  padding: 5px 6px;
+  padding: 4px 4px;
   text-align: center;
-  font-weight: 800;
-  font-size: 11px;
-  color: #059669;
+  font-weight: 900;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
+  border-radius: 6px;
 }
 
 .print-day {
-  background: #fff;
-  padding: 5px 6px;
-  min-height: 14mm;
+  padding: 4px 5px;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  border-radius: 6px;
+  min-height: 0;
 }
 
 .print-day.muted {
-  background: #f9fafb;
-}
-
-.print-day.muted .day-num {
-  color: #d1d5db;
+  opacity: 0.35;
 }
 
 .day-num {
-  font-weight: 800;
-  font-size: 14px;
-  color: #1e293b;
+  font-weight: 900;
+  font-size: 12px;
   line-height: 1;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 2px;
+  flex-shrink: 0;
+  font-family: 'Comfortaa', cursive;
 }
 
 .day-events {
@@ -1340,43 +1364,40 @@ a.event-chip:hover,
   align-items: center;
   gap: 3px;
   padding: 2px 5px;
-  border-radius: 5px;
-  border-left-width: 3px;
-  border-left-style: solid;
+  border-radius: 8px;
+  font-weight: 800;
 }
 
 .event-emoji {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1;
   flex-shrink: 0;
 }
 
 .event-label {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 800;
-  color: #0f172a;
   line-height: 1.2;
 }
 
 .cute-footer {
-  padding: 3mm 10mm;
+  padding: 2.5mm 10mm;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 10px;
-  color: #94a3b8;
-  font-weight: 600;
-  background: #f0fdf4;
-  border-top: 1px solid #d1fae5;
+  font-size: 9.5px;
+  color: #64748b;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ecfdf5, #eff6ff, #fdf4ff);
+  border-top: 2px dashed #a7f3d0;
   flex-shrink: 0;
 }
 
 .footer-legend {
   display: flex;
-  gap: 10px;
-  font-size: 11px;
-  color: #475569;
-  font-weight: 700;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 800;
 }
 
 @media print {
@@ -1398,11 +1419,17 @@ a.event-chip:hover,
     width: 100%;
     height: 100vh;
     margin: 0;
-    padding: 10mm;
     box-shadow: none;
     border-radius: 0;
+    border: none;
+  }
+
+  .paper::before {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
+
 .map-pin-btn { background: #e0e0e0; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
 .map-pin-btn:hover { background: #d0d0d0; }
 

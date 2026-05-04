@@ -21,67 +21,100 @@ document.addEventListener("DOMContentLoaded", async () => {
 function renderPrint(place, events, month) {
   const days = buildMonthGrid(month, events);
 
+  // Big friendly emoji for each type
   const wasteEmoji = {
-    residual: "🗑️", bio: "🌿", paper: "📄",
-    plastic_metal: "♻️", glass: "🍃", bulky: "📦",
-    textile: "👕", hazardous: "⚠️"
+    residual: "🗑️", bio: "🌱", paper: "📰",
+    plastic_metal: "🧴", glass: "🫙", bulky: "📦",
+    textile: "🎀", hazardous: "⚠️"
   };
 
+  // Vibrant pastel backgrounds
   const wasteBg = {
-    residual: "#f1f5f9", bio: "#d1fae5", paper: "#dbeafe",
-    plastic_metal: "#fef3c7", glass: "#d1fae5", bulky: "#ede9fe",
-    textile: "#fce7f3", hazardous: "#fee2e2"
+    residual: "#e2e8f0", bio: "#bbf7d0", paper: "#bfdbfe",
+    plastic_metal: "#fde68a", glass: "#a7f3d0", bulky: "#ddd6fe",
+    textile: "#fbcfe8", hazardous: "#fecaca"
   };
 
-  const recycleLogoSVG = `<svg width="36" height="36" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="32" cy="32" r="32" fill="#d1fae5"/>
-    <path d="M32 14 L38 24 H26 Z" fill="#10b981"/>
-    <path d="M44 42 L38 32 L50 32 Z" fill="#059669"/>
-    <path d="M20 42 L26 32 L14 32 Z" fill="#34d399"/>
-    <circle cx="32" cy="32" r="6" fill="#fff"/>
-    <circle cx="32" cy="32" r="4" fill="#10b981"/>
+  const wasteTextColor = {
+    residual: "#334155", bio: "#065f46", paper: "#1e40af",
+    plastic_metal: "#92400e", glass: "#065f46", bulky: "#5b21b6",
+    textile: "#9d174d", hazardous: "#991b1b"
+  };
+
+  // Rainbow colors per weekday column (Mon–Sun)
+  const dayColors = ["#fde68a","#bbf7d0","#bfdbfe","#ddd6fe","#fbcfe8","#fed7aa","#d1fae5"];
+  const dayTextColors = ["#78350f","#065f46","#1e40af","#5b21b6","#9d174d","#7c2d12","#065f46"];
+
+  const logoSVG = `<svg width="52" height="52" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="40" cy="40" r="40" fill="#d1fae5"/>
+    <!-- Leaf left -->
+    <ellipse cx="22" cy="44" rx="12" ry="7" fill="#34d399" transform="rotate(-30 22 44)"/>
+    <!-- Leaf right -->
+    <ellipse cx="58" cy="44" rx="12" ry="7" fill="#10b981" transform="rotate(30 58 44)"/>
+    <!-- Center stem -->
+    <rect x="37" y="28" width="6" height="22" rx="3" fill="#059669"/>
+    <!-- Smile -->
+    <path d="M28 54 Q40 64 52 54" stroke="#059669" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- Eyes -->
+    <circle cx="32" cy="46" r="3" fill="#059669"/>
+    <circle cx="48" cy="46" r="3" fill="#059669"/>
+    <!-- Stars decorations -->
+    <text x="6" y="22" font-size="12">⭐</text>
+    <text x="58" y="18" font-size="10">✨</text>
   </svg>`;
+
+  const decorStars = `<div class="deco-stars" aria-hidden="true">
+    <span style="top:2mm;left:8mm;font-size:16px;color:#fbbf24;">⭐</span>
+    <span style="top:6mm;left:22mm;font-size:10px;color:#34d399;">🌿</span>
+    <span style="top:1mm;right:30mm;font-size:12px;color:#f472b6;">✨</span>
+    <span style="top:5mm;right:14mm;font-size:10px;color:#60a5fa;">🌍</span>
+  </div>`;
 
   document.querySelector("#print-paper").innerHTML = `
     <header class="paper-head">
+      ${decorStars}
       <div class="brand print-brand">
-        ${recycleLogoSVG}
+        ${logoSVG}
         <div class="brand-text">
           <span class="brand-name">Reciclare <strong>Arad</strong></span>
-          <span class="brand-tagline">🌍 Împreună salvăm planeta!</span>
+          <span class="brand-tagline">🌱 Eroi ai Planetei!</span>
         </div>
       </div>
       <div class="print-address-block">
-        <div class="print-street">${escapeHTML(place.street_raw)}</div>
-        <div class="print-district">${escapeHTML(place.cartier || "Arad")}</div>
-        <div class="print-month-label">${printMonthNames[month.getMonth()]} ${month.getFullYear()}</div>
+        <div class="print-street">📍 ${escapeHTML(place.street_raw)}</div>
+        <div class="print-district">🏘️ ${escapeHTML(place.cartier || "Arad")}</div>
+        <div class="print-month-label">🗓️ ${printMonthNames[month.getMonth()]} ${month.getFullYear()}</div>
       </div>
     </header>
 
     <div class="print-calendar">
-      ${printWeekdays.map((day) => `<div class="print-weekday">${day}</div>`).join("")}
-      ${days.map((day) => `
-        <div class="print-day ${day.inMonth ? "" : "muted"}">
-          <span class="day-num">${day.date.getDate()}</span>
+      ${printWeekdays.map((day, i) => `
+        <div class="print-weekday" style="background:${dayColors[i]};color:${dayTextColors[i]}">${day}</div>
+      `).join("")}
+      ${days.map((day) => {
+        const col = (((day.date.getDay() + 6) % 7)); // Mon=0
+        const colBg = day.inMonth ? (dayColors[col] + "44") : "#f9fafb";
+        return `
+        <div class="print-day ${day.inMonth ? "" : "muted"}" style="background:${colBg}">
+          <span class="day-num" style="${day.inMonth ? `background:${dayColors[col]};color:${dayTextColors[col]}` : "background:#e5e7eb;color:#9ca3af"}">${day.date.getDate()}</span>
           <div class="day-events">
             ${day.events.map((event) => `
-              <div class="print-event" style="background:${wasteBg[event.waste_type] || "#f1f5f9"}; border-left: 3px solid ${event.color}">
+              <div class="print-event" style="background:${wasteBg[event.waste_type] || "#e2e8f0"};color:${wasteTextColor[event.waste_type] || "#334155"}">
                 <span class="event-emoji">${wasteEmoji[event.waste_type] || "♻️"}</span>
                 <span class="event-label">${escapeHTML(event.label)}</span>
               </div>
             `).join("")}
           </div>
-        </div>
-      `).join("")}
+        </div>`;
+      }).join("")}
     </div>
 
     <footer class="print-footer cute-footer">
       <div class="footer-left">
-        <p><strong>Dezvoltat pro-bono de Florin Badita</strong> (baditaflorin@gmail.com) &bull; paypal.me/florinbadita</p>
-        <p>baditaflorin.github.io/calendar-ridicare-gunoi-arad/ &mdash; Date: RETIM &amp; Primăria Arad</p>
+        🌟 <strong>Florin Badita</strong> · baditaflorin@gmail.com · paypal.me/florinbadita · baditaflorin.github.io/calendar-ridicare-gunoi-arad/
       </div>
       <div class="footer-legend">
-        <span>🌿 Bio</span><span>📄 Hârtie</span><span>♻️ Plastic</span><span>🗑️ Rezidual</span>
+        <span>🌱 Bio</span><span>📰 Hârtie</span><span>🧴 Plastic</span><span>🗑️ Rezidual</span><span>🫙 Sticlă</span>
       </div>
     </footer>
   `;
