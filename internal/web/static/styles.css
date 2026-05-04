@@ -188,10 +188,12 @@ input {
 }
 
 .hero-copy h1 {
-  max-width: 770px;
+  max-width: 860px;
   margin: 0 0 20px;
-  font-size: clamp(44px, 5vw, 76px);
-  line-height: 0.98;
+  font-size: clamp(32px, 8vw, 76px);
+  line-height: 1.05;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 800;
 }
 
 .hero-copy h1::first-line {
@@ -612,10 +614,19 @@ input {
 
 .calendar-grid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(120px, 1fr));
   margin-top: 18px;
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow-x: auto;
+  background: var(--line);
+  gap: 1px;
+}
+
+@media (max-width: 768px) {
+  .calendar-grid {
+    grid-template-columns: repeat(7, 100px);
+  }
 }
 
 .weekday-cell,
@@ -640,11 +651,18 @@ input {
   align-content: start;
   gap: 8px;
   font-weight: 800;
+  background: #fff;
+  min-height: 110px;
 }
 
 .day-cell.muted {
   color: #a9b4c7;
-  background: #f8fbff;
+  background: #f8fafc;
+}
+
+@media (max-width: 640px) {
+  .day-cell { min-height: 90px; padding: 8px; }
+  .weekday-cell { padding: 8px; font-size: 11px; }
 }
 
 .event-chip {
