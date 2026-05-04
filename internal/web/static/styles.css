@@ -1194,6 +1194,10 @@ a.event-chip:hover,
   animation: fadeIn 0.3s ease-out;
 }
 
+.modal-overlay[hidden] {
+  display: none !important;
+}
+
 .modal-content {
   background: #fff;
   width: 100%;
