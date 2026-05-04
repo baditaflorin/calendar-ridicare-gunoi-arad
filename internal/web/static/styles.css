@@ -1380,23 +1380,44 @@ a.event-chip:hover,
 }
 
 .cute-footer {
-  padding: 2.5mm 10mm;
+  padding: 3mm 10mm;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 9.5px;
+  gap: 16px;
+  font-size: 10px;
   color: #64748b;
-  font-weight: 700;
+  font-weight: 600;
   background: linear-gradient(90deg, #ecfdf5, #eff6ff, #fdf4ff);
   border-top: 2px dashed #a7f3d0;
   flex-shrink: 0;
 }
 
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.footer-credit-main {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.footer-credit-sub {
+  font-size: 9px;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
 .footer-legend {
   display: flex;
-  gap: 8px;
-  font-size: 10px;
+  gap: 10px;
+  font-size: 10.5px;
   font-weight: 800;
+  color: #334155;
+  white-space: nowrap;
 }
 
 @media print {
