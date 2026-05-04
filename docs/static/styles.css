@@ -1379,6 +1379,39 @@ a.event-chip:hover,
   line-height: 1.2;
 }
 
+.print-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 10mm;
+  background: #f8fffe;
+  border-bottom: 1px solid #d1fae5;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.print-legend-row::before {
+  content: "Legendă:";
+  font-size: 9px;
+  font-weight: 800;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.legend-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 .cute-footer {
   padding: 3mm 10mm;
   display: flex;

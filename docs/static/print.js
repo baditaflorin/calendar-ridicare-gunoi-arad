@@ -87,6 +87,15 @@ function renderPrint(place, events, month) {
       </div>
     </header>
 
+    <div class="print-legend-row">
+      ${legend(events).map((event) => `
+        <div class="legend-pill" style="background:${wasteBg[event.waste_type] || "#e2e8f0"};color:${wasteTextColor[event.waste_type] || "#334155"}">
+          <span>${wasteEmoji[event.waste_type] || "♻️"}</span>
+          <span>${escapeHTML(event.label)}</span>
+        </div>
+      `).join("")}
+    </div>
+
     <div class="print-calendar">
       ${printWeekdays.map((day) => `
         <div class="print-weekday">${day}</div>
