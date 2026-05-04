@@ -88,15 +88,14 @@ function renderPrint(place, events, month) {
     </header>
 
     <div class="print-calendar">
-      ${printWeekdays.map((day, i) => `
-        <div class="print-weekday" style="background:${dayColors[i]};color:${dayTextColors[i]}">${day}</div>
+      ${printWeekdays.map((day) => `
+        <div class="print-weekday">${day}</div>
       `).join("")}
       ${days.map((day) => {
-        const col = (((day.date.getDay() + 6) % 7)); // Mon=0
-        const colBg = day.inMonth ? (dayColors[col] + "44") : "#f9fafb";
+        const isWeekend = day.date.getDay() === 0 || day.date.getDay() === 6;
         return `
-        <div class="print-day ${day.inMonth ? "" : "muted"}" style="background:${colBg}">
-          <span class="day-num" style="${day.inMonth ? `background:${dayColors[col]};color:${dayTextColors[col]}` : "background:#e5e7eb;color:#9ca3af"}">${day.date.getDate()}</span>
+        <div class="print-day ${day.inMonth ? "" : "muted"}${isWeekend ? " weekend" : ""}">
+          <span class="day-num">${day.date.getDate()}</span>
           <div class="day-events">
             ${day.events.map((event) => `
               <div class="print-event" style="background:${wasteBg[event.waste_type] || "#e2e8f0"};color:${wasteTextColor[event.waste_type] || "#334155"}">

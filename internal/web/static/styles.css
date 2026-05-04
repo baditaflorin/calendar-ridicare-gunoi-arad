@@ -1308,48 +1308,47 @@ a.event-chip:hover,
 .print-calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
-  background: #e0f2fe;
+  gap: 1px;
+  background: #e2e8f0;
   flex: 1;
   overflow: hidden;
-  padding: 2px;
 }
 
 .print-weekday {
-  padding: 4px 4px;
+  background: #059669;
+  padding: 5px 6px;
   text-align: center;
   font-weight: 900;
   font-size: 10px;
+  color: #fff;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  border-radius: 6px;
+  letter-spacing: 0.06em;
 }
 
 .print-day {
-  padding: 4px 5px;
+  background: #fff;
+  padding: 5px 6px;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  border-radius: 6px;
   min-height: 0;
 }
 
+.print-day.weekend {
+  background: #fafff8;
+}
+
 .print-day.muted {
-  opacity: 0.35;
+  background: #f9fafb;
+  opacity: 0.5;
 }
 
 .day-num {
   font-weight: 900;
-  font-size: 12px;
+  font-size: 13px;
+  color: #334155;
   line-height: 1;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-bottom: 2px;
-  flex-shrink: 0;
   font-family: 'Comfortaa', cursive;
 }
 
