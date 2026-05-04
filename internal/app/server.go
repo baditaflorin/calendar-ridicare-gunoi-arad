@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"io/fs"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -26,14 +27,24 @@ type Server struct {
 	config    config.Config
 	metrics   *metrics.Metrics
 	templates *template.Template
+	version   string
 }
 
 func NewServer(store *store.Store, cfg config.Config, met *metrics.Metrics) (*Server, error) {
-	tpl, err := template.ParseFS(web.Assets, "templates/*.html")
+	versionBytes, _ := os.ReadFile("VERSION")
+	version := strings.TrimSpace(string(versionBytes))
+	if version == "" {
+		version = "dev"
+	}
+
+	tpl := template.New("").Funcs(template.FuncMap{
+		"VERSION": func() string { return version },
+	})
+	tpl, err := tpl.ParseFS(web.Assets, "templates/*.html")
 	if err != nil {
 		return nil, err
 	}
-	return &Server{store: store, config: cfg, metrics: met, templates: tpl}, nil
+	return &Server{store: store, config: cfg, metrics: met, templates: tpl, version: version}, nil
 }
 
 func (s *Server) Handler() http.Handler {

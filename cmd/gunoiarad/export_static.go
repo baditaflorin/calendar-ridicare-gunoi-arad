@@ -110,6 +110,12 @@ func copyStaticAssets(outDir string) error {
 }
 
 func writeStaticPages(outDir string) error {
+	versionBytes, _ := os.ReadFile("VERSION")
+	version := strings.TrimSpace(string(versionBytes))
+	if version == "" {
+		version = "dev"
+	}
+
 	pages := []struct {
 		template string
 		target   string
@@ -127,7 +133,7 @@ func writeStaticPages(outDir string) error {
 		if err != nil {
 			return err
 		}
-		html := staticHTML(string(content), page.prefix)
+		html := staticHTML(string(content), page.prefix, version)
 		targetPath := filepath.Join(outDir, page.target)
 		if err := os.MkdirAll(filepath.Dir(targetPath), 0o755); err != nil {
 			return err
@@ -139,11 +145,11 @@ func writeStaticPages(outDir string) error {
 	if err := os.WriteFile(filepath.Join(outDir, "404.html"), []byte(staticRedirectHTML()), 0o644); err != nil {
 		return err
 	}
-	return os.WriteFile(filepath.Join(outDir, "print/index.html"), []byte(staticPrintHTML()), 0o644)
+	return os.WriteFile(filepath.Join(outDir, "print/index.html"), []byte(staticPrintHTML(version)), 0o644)
 }
 
-func staticHTML(html string, prefix string) string {
-	cacheBust := fmt.Sprintf("?v=%d", time.Now().Unix())
+func staticHTML(html string, prefix string, version string) string {
+	cacheBust := fmt.Sprintf("?v=%s", version)
 	replacements := map[string]string{
 		`href="/static/`:    `href="` + prefix + `static/`,
 		`src="/static/`:     `src="` + prefix + `static/`,
@@ -154,14 +160,15 @@ func staticHTML(html string, prefix string) string {
 		`href="/analize"`:   `href="` + prefix + `analize/"`,
 		`href="https://retim.ro/utile-arad/zona-1/"`: `href="https://retim.ro/utile-arad/zona-1/"`,
 		`<a href="/metrics">Metrics</a>`:             `<a href="https://retim.ro/utile-arad/zona-1/" target="_blank" rel="noreferrer">RETIM</a>`,
+		`{{VERSION}}`:                                version,
 	}
 	for old, newValue := range replacements {
 		html = strings.ReplaceAll(html, old, newValue)
 	}
-	// Cache-bust CSS and JS
+	// Cache-bust CSS and JS using actual version
 	html = strings.ReplaceAll(html, `.css"`, `.css`+cacheBust+`"`)
 	html = strings.ReplaceAll(html, `.js"`, `.js`+cacheBust+`"`)
-	html = strings.Replace(html, "</head>", "  <script>window.GUNOI_STATIC = true;</script>\n</head>", 1)
+	html = strings.Replace(html, "</head>", "  <script>window.GUNOI_STATIC = true; window.GUNOI_VERSION = '"+version+"';</script>\n</head>", 1)
 	return html
 }
 
@@ -183,17 +190,18 @@ func staticRedirectHTML() string {
 </html>`
 }
 
-func staticPrintHTML() string {
+func staticPrintHTML(version string) string {
+	cacheBust := fmt.Sprintf("?v=%s", version)
 	return `<!doctype html>
 <html lang="ro">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Calendar de colectare - Gunoi Arad</title>
-  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/styles.css` + cacheBust + `">
   <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script>window.GUNOI_STATIC = true;</script>
-  <script defer src="../static/print.js"></script>
+  <script>window.GUNOI_STATIC = true; window.GUNOI_VERSION = '` + version + `';</script>
+  <script defer src="../static/print.js` + cacheBust + `"></script>
 </head>
 <body class="print-body">
   <nav class="print-toolbar" aria-label="Actiuni calendar">
@@ -203,6 +211,7 @@ func staticPrintHTML() string {
   <main class="paper" id="print-paper">
     <p>Se incarca calendarul...</p>
   </main>
+  <div style="position: fixed; bottom: 10px; right: 10px; font-size: 10px; color: #cbd5e1;">v` + version + `</div>
 </body>
 </html>`
 }
