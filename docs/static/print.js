@@ -22,7 +22,6 @@ function renderPrint(place, events, month) {
   const days = buildMonthGrid(month, events);
   
   document.querySelector("#print-paper").innerHTML = `
-    <div class="sky-accent"></div>
     <header class="paper-head">
       <div class="brand print-brand">
         <span class="brand-mark" aria-hidden="true"></span>
@@ -56,13 +55,6 @@ function renderPrint(place, events, month) {
           </div>
         </div>
       `).join("")}
-    </div>
-
-    <div class="mission-banner">
-      <span class="mission-icon">🏆</span>
-      <div class="mission-text">
-        <strong>Misiunea Lunii:</strong> Colectează separat și bifează toate căsuțele de mai sus pentru a deveni un Erou Verde!
-      </div>
     </div>
 
     <footer class="print-footer cute-footer">
