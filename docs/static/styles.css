@@ -1180,3 +1180,142 @@ a.event-chip:hover,
   margin-bottom: 12px;
 }
 
+/* Modal & Premium Form */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: #fff;
+  width: 100%;
+  max-width: 560px;
+  border-radius: 20px;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 28px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.modal-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #eff6ff;
+  color: var(--blue);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 750;
+  margin-bottom: 12px;
+}
+
+.modal-header h2 {
+  margin: 0 0 12px;
+  font-size: 24px;
+}
+
+.modal-header p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 750;
+  color: var(--ink);
+}
+
+.form-group input {
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+.form-group input[readonly] {
+  background: #f8fafc;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.price-tag {
+  margin: 0;
+  font-size: 15px;
+}
+
+.price-tag strong {
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.modal-note {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 16px;
+}
+
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } }
+
+@media (max-width: 640px) {
+  .form-row { grid-template-columns: 1fr; }
+  .modal-content { padding: 32px 24px; }
+}

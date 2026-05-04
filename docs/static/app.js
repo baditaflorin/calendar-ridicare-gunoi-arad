@@ -77,6 +77,60 @@ function bindButtons() {
       await navigator.clipboard.writeText(url);
     }
   });
+  
+  // Modal toggle
+  const orderLink = document.querySelector("#order-link");
+  const modal = document.querySelector("#order-modal");
+  const closeBtn = document.querySelector("#close-modal");
+  
+  if (orderLink && modal) {
+    orderLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!state.place) return;
+      document.querySelector("#order-street").value = state.place.street_raw;
+      modal.hidden = false;
+    });
+    
+    closeBtn.addEventListener("click", () => { modal.hidden = true; });
+    modal.addEventListener("click", (e) => { if (e.target === modal) modal.hidden = true; });
+  }
+
+  // Form submission
+  const form = document.querySelector("#premium-form");
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.querySelector("#submit-order");
+      const btnText = btn.querySelector(".btn-text");
+      const btnSpinner = btn.querySelector(".btn-spinner");
+      
+      btn.disabled = true;
+      btnText.textContent = "Se trimite...";
+      
+      try {
+        const formData = new FormData(form);
+        const response = await fetch("https://formspree.io/f/mvzlkzwa", {
+          method: "POST",
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+        
+        if (response.ok) {
+          // Success! Redirect to PayPal
+          window.location.href = "https://www.paypal.com/paypalme/florinbadita/4";
+        } else {
+          const data = await response.json();
+          alert("Eroare: " + (data.errors ? data.errors.map(e => e.message).join(", ") : "Te rugăm să încerci din nou."));
+          btn.disabled = false;
+          btnText.textContent = "Trimite și Plătește";
+        }
+      } catch (err) {
+        alert("Eroare de conexiune. Te rugăm să verifici internetul.");
+        btn.disabled = false;
+        btnText.textContent = "Trimite și Plătește";
+      }
+    });
+  }
 }
 
 async function search(query, pickFirst) {

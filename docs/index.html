@@ -4,9 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Reciclare Arad</title>
-  <link rel="stylesheet" href="./static/styles.css?v=1777855361">
-  <script defer src="./static/app.js?v=1777855361"></script>
+  <link rel="stylesheet" href="./static/styles.css?v=1777855665">
+  <script defer src="./static/app.js?v=1777855665"></script>
   <link rel="icon" type="image/svg+xml" href="./static/favicon.svg">
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
   <script>window.GUNOI_STATIC = true;</script>
 </head>
 <body>
@@ -99,5 +100,48 @@
       <img src="https://telemetry.0init.com/telemetry/clnzoxcy10001vy2ohi4obbi0/cmoqcjj8205yzby3l4b0p8ccc.gif" alt="" style="position: absolute; visibility: hidden;" />
     </footer>
   </main>
+
+  <!-- Premium Order Modal -->
+  <div id="order-modal" class="modal-overlay" hidden>
+    <div class="modal-content">
+      <button class="modal-close" id="close-modal">&times;</button>
+      <div class="modal-header">
+        <span class="modal-badge">💎 Premium</span>
+        <h2>Comandă Printuri 2026</h2>
+        <p>Primești calendarul curat, fără credite sau link-uri de contact, optimizat pentru print profesional.</p>
+      </div>
+      
+      <form id="premium-form" class="modal-form">
+        <input type="hidden" name="form_type" value="premium_print_order">
+        <div class="form-group">
+          <label for="order-name">Nume Complet</label>
+          <input type="text" id="order-name" name="name" required placeholder="Ex: Popescu Ion">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="order-email">Email</label>
+            <input type="email" id="order-email" name="email" required placeholder="ion@exemplu.ro">
+          </div>
+          <div class="form-group">
+            <label for="order-phone">Telefon</label>
+            <input type="tel" id="order-phone" name="phone" required placeholder="07xx xxx xxx">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="order-street">Strada pentru calendar</label>
+          <input type="text" id="order-street" name="street" required readonly>
+        </div>
+        
+        <div class="modal-footer">
+          <p class="price-tag">Total: <strong>16 RON</strong></p>
+          <button type="submit" class="button primary" id="submit-order">
+            <span class="btn-text">Trimite și Plătește</span>
+            <span class="btn-spinner" hidden></span>
+          </button>
+        </div>
+        <p class="modal-note">După trimitere, vei fi redirecționat către PayPal pentru plată.</p>
+      </form>
+    </div>
+  </div>
 </body>
 </html>
